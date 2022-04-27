@@ -38,7 +38,7 @@ var init = function() {
         for (var i = t.length; i--;) {
             let o = t[i],
                 l = n.states[o.key];
-            "asw-filter" == e && n.states.contrast == o.key && (l = !0), s += `\n                <div class="asw-btn ${e||""} ${l?"asw-selected":""}" role="button" aria-pressed="false" data-key="${o.key}" arai-label="${o.label}" title="${o.label}" >\n                    <span class="material-icons">${o.icon}</span>\n                    ${o.label}\n                </div>\n            \n            `, a.push(o.icon)
+            "asw-filter" == e && n.states.contrast == o.key && (l = !0), s += `\n                <button class="asw-btn ${e||""} ${l?"asw-selected":""}" role="button" aria-pressed="false" data-key="${o.key}" arai-label="${o.label}" title="${o.label}" >\n                    <span class="material-icons">${o.icon}</span>\n                    ${o.label}\n                </button>\n            \n            `, a.push(o.icon)
         }
         return s
     };
@@ -455,7 +455,7 @@ var init = function() {
                 let a = "";
                 "dark-contrast" == n ? a = "color: #fff !important;fill: #FFF !important;background-color: #000 !important;" : "light-contrast" == n ? a = " color: #000 !important;fill: #000 !important;background-color: #FFF !important;" : "high-contrast" == n ? a += c("contrast(125%)") : "high-saturation" == n ? a += c("saturate(200%)") : "low-saturation" == n ? a += c("saturate(50%)") : "monochrome" == n && (a += c("grayscale(100%)"));
                 let s = [""];
-                "dark-contrast" != n && "light-contrast" != n || (s = ["h1", "h2", "h3", "h4", "h5", "h6", "img", "p", "i", "svg", "a", "button", "label", "li", "ol"]);
+                "dark-contrast" != n && "light-contrast" != n || (s = ["h1", "h2", "h3", "h4", "h5", "h6", "img", "p", "i", "svg", "a", "label", "li", "ol"]);
                 for (var e = s.length; e--;) t += '[data-asw-filter="' + n + '"] ' + s[e] + "{" + a + "}"
             }
             d(t, "asw-filter-style"), n ? document.documentElement.setAttribute("data-asw-filter", n) : document.documentElement.removeAttribute("data-asw-filter", n)
@@ -532,8 +532,11 @@ var init = function() {
         }), t()
     }, !1), h.querySelectorAll(".asw-btn").forEach(function(n) {
         n.addEventListener("click", f, !1)
-    }), h.querySelectorAll(".asw-adjust-font div[role='button']").forEach(function(n) {
+    }), h.querySelectorAll(".asw-adjust-font button[role='button']").forEach(function(n) {
         n.addEventListener("click", m, !1)
-    }), document.body.appendChild(r), m(null, 1), e && (p(), m(null, n.states.fontSize || 1), n.states.contrast && u(n.states.contrast))
+    }),h.querySelectorAll(".asw-adjust-font div[role='button']").forEach(function(n) {
+        n.addEventListener("click", m, !1)
+    }),  
+    document.body.appendChild(r), m(null, 1), e && (p(), m(null, n.states.fontSize || 1), n.states.contrast && u(n.states.contrast))
 };
 document.addEventListener("DOMContentLoaded", init);
