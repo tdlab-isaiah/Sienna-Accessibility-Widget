@@ -84,11 +84,7 @@ var init = function() {
             key: "dark-contrast",
             icon: "nightlight"
         }], "asw-filter"),
-        l = s([{
-            label: "Big Cursor",
-            key: "big-cursor",
-            icon: "mouse"
-        }, {
+        l = s([ {
             label: "Stop Animations",
             key: "stop-animations",
             icon: "motion_photos_off"
@@ -200,7 +196,6 @@ var init = function() {
 
     .asw-menu-reset,
     .asw-menu-close {\n
-        padding: 12px;
         border: none;
         font: inherit;
         color: inherit;
@@ -221,11 +216,11 @@ var init = function() {
         display: flex;\n
     }\n\n
     
-    .asw-menu-header div[role="button"] {\n
+    .asw-menu-header button[role="button"] {\n
         padding: 12px;\n
     }\n\n
 
-    .asw-menu-header div[role="button"]:hover {\n
+    .asw-menu-header button[role="button"]:hover {\n
         opacity: 0.8;\n
     }\n\n
 
@@ -493,7 +488,16 @@ var init = function() {
                     }, document.addEventListener("mousemove", window.onScrollReadableGuide, !1), document.body.appendChild(o)
                 }
             } else i && (i.remove(), document.removeEventListener("mousemove", window.onScrollReadableGuide));
-            n.states["stop-animations"] && (e += `\n                body * {\n                    ${c("none !important","transition")}\n                    ${c("forwards !important","animation-fill-mode")}\n                    ${c("1 !important"," animation-iteration-count")}\n                    ${c(".01s !important","animation-duration")}\n                }\n            `), n.states["big-cursor"] && (e += "\n                body * {\n                    cursor: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 512 512'%3E%3Cpath  d='M429.742 319.31L82.49 0l-.231 471.744 105.375-100.826 61.89 141.083 96.559-42.358-61.89-141.083 145.549-9.25zM306.563 454.222l-41.62 18.259-67.066-152.879-85.589 81.894.164-333.193 245.264 225.529-118.219 7.512 67.066 152.878z' xmlns='http://www.w3.org/2000/svg'/%3E%3C/svg%3E\") ,default !important;\n                }\n            "), d(e, "asw-content-style")
+            n.states["stop-animations"] && (e += `\n
+                            body * {\n
+                                ${c("none !important","transition")}\n
+                                ${c("forwards !important","animation-fill-mode")}\n
+                                ${c("1 !important"," animation-iteration-count")}\n
+                                ${c(".01s !important","animation-duration")}\n
+                        }\n
+                        `),
+            //n.states["big-cursor"] && (e += "\n body * {\n                    cursor: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 512 512'%3E%3Cpath  d='M429.742 319.31L82.49 0l-.231 471.744 105.375-100.826 61.89 141.083 96.559-42.358-61.89-141.083 145.549-9.25zM306.563 454.222l-41.62 18.259-67.066-152.879-85.589 81.894.164-333.193 245.264 225.529-118.219 7.512 67.066 152.878z' xmlns='http://www.w3.org/2000/svg'/%3E%3C/svg%3E\") ,default !important;\n                }\n            "),
+            d(e, "asw-content-style")
         };
     var f = function(e) {
         e.preventDefault();
