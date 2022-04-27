@@ -162,6 +162,10 @@ var init = function() {
         transform: translateY(0);\n
         width: 64px;\n
         height: 64px;\n
+        max-width: 5vw;\n
+        max-height: 5vw;\n
+        min-width: 9px;\n
+        min-height: 9px;\n
         display: flex;\n
         fill: white;\n
         cursor: pointer;\n
@@ -355,21 +359,26 @@ var init = function() {
             margin: 4px;\n
         }\n
     }\n
+    @media only screen and (max-width: 1000px) {\n
 
-    @media only screen and (max-width: 550px){\n
-        .asw-menu-btn {\n
-            border:2px solid white;\n
-            left: 12px;\n
-            bottom: 12px;\n
-            width: 36px;\n
-            height: 36px;\n
-        }\n
+        @media (min-width: 451px) {
+            .asw-menu-btn {\n
+                border:2px solid white;\n
+                left: 7px;\n
+                bottom: 7px;\n
+                padding: 1px 3px;
+            }\n
+    
+            .asw-menu {\n
+                height: calc(100% - 35px - 4vw);\n
+                left: 15px;\n
+                top: 12px;
+            }\n
+        }
 
-        .asw-menu {\n
-            height: calc(100% - 40px - 30px);\n
-            top: 12px;
-        }\n
-
+        .asw-menu-btn {
+            box-shadow: 0 2px 5px 0 ${hex2rgb(boxShadow1, 15)}, 0 1px 2px 0 ${hex2rgb(boxShadow2, 20)};\n
+        }
         .asw-menu-content {
             overflow: scroll;
             max-height: 100%;
@@ -385,18 +394,37 @@ var init = function() {
         }\n\n
     }\n\n
 
-    @media only screen and (max-width: 400px){\n
+    @media only screen and (max-width: 450px) and  (min-width: 301px)  {\n
         .asw-menu-btn {\n
             border:1px solid white;\n
             left: 5px;\n
             bottom: 5px;\n
-            width: 20px;\n
-            height: 20px;\n
+            padding: 1px 3px;
         }\n
 
         .asw-menu {\n
-            height: calc(100% - 40px + 5px);\n
+            height: calc(100% - 22px - 4vw);\n
             top: 5px;
+            left: 10px;\n
+        }\n
+
+        .asw-menu-header button[role="button"] {\n
+            padding: 4px;\n
+        }\n\n
+    }\n\n
+
+    @media  (max-width: 300px){\n
+        .asw-menu-btn {\n
+            border:1px solid white;\n
+            left: 4px;\n
+            bottom: 4px;\n
+            padding: 1px 1px;
+        }\n
+
+        .asw-menu {\n
+            height: calc(100% - 16px - 4vw );\n
+            top: 5px;
+            left: 8px;
         }\n
 
         .asw-menu-header button[role="button"] {\n
