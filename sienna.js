@@ -356,17 +356,18 @@ var init = function() {
         }\n
     }\n
 
-    @media only screen and (max-width: 500px){\n
+    @media only screen and (max-width: 550px){\n
         .asw-menu-btn {\n
             border:2px solid white;\n
             left: 12px;\n
             bottom: 12px;\n
-            width: 48px;\n
-            height: 48px;\n
+            width: 36px;\n
+            height: 36px;\n
         }\n
 
         .asw-menu {\n
-            height: calc(100% - 40px - 50px);\n
+            height: calc(100% - 40px - 30px);\n
+            top: 12px;
         }\n
 
         .asw-menu-content {
@@ -378,29 +379,39 @@ var init = function() {
             padding:0px;
             display:none; !important;
         }\n
+
+        .asw-menu-header button[role="button"] {\n
+            padding: 8px;\n
+        }\n\n
     }\n\n
 
-    @media only screen and (max-width: 350px){\n
+    @media only screen and (max-width: 400px){\n
         .asw-menu-btn {\n
             border:1px solid white;\n
-            left: 7px;\n
-            bottom: 7px;\n
-            width: 32px;\n
-            height: 32px;\n
+            left: 5px;\n
+            bottom: 5px;\n
+            width: 20px;\n
+            height: 20px;\n
         }\n
 
         .asw-menu {\n
-            height: calc(100% - 40px - 25px);\n
+            height: calc(100% - 40px + 5px);\n
+            top: 5px;
         }\n
+
+        .asw-menu-header button[role="button"] {\n
+            padding: 4px;\n
+        }\n\n
     }\n\n
 
 </style>\n
+        
         <div class="asw-widget">\n            
             <button class="asw-menu-btn" title="Open Accessibility Menu" role="button" aria-expanded="false">\n                
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="34px" height="34px">
                     <path d="M0 0h24v24H0V0z" fill="none"/><path d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
                 </svg>\n
-            </button>\n            
+            </button>\n    
             <div class="asw-menu">\n                
                 <div class="asw-menu-header">\n
                     Accessibility Menu\n
