@@ -355,6 +355,45 @@ var init = function() {
             margin: 4px;\n
         }\n
     }\n
+
+    @media only screen and (max-width: 500px){\n
+        .asw-menu-btn {\n
+            border:2px solid white;\n
+            left: 12px;\n
+            bottom: 12px;\n
+            width: 48px;\n
+            height: 48px;\n
+        }\n
+
+        .asw-menu {\n
+            height: calc(100% - 40px - 50px);\n
+        }\n
+
+        .asw-menu-content {
+            overflow: scroll;
+            max-height: 100%;
+        }
+
+        .asw-footer {\n
+            padding:0px;
+            display:none; !important;
+        }\n
+    }\n\n
+
+    @media only screen and (max-width: 350px){\n
+        .asw-menu-btn {\n
+            border:1px solid white;\n
+            left: 7px;\n
+            bottom: 7px;\n
+            width: 32px;\n
+            height: 32px;\n
+        }\n
+
+        .asw-menu {\n
+            height: calc(100% - 40px - 25px);\n
+        }\n
+    }\n\n
+
 </style>\n
         <div class="asw-widget">\n            
             <button class="asw-menu-btn" title="Open Accessibility Menu" role="button" aria-expanded="false">\n                
