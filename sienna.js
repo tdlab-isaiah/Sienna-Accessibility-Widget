@@ -591,6 +591,11 @@ var init = function() {
     }),h.querySelectorAll(".asw-adjust-font div[role='button']").forEach(function(n) {
         n.addEventListener("click", m, !1)
     }),  
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') {
+            h.style.display = "none", g.style.display = h.style.display
+        }
+      })
     document.body.appendChild(r), m(null, 1), e && (p(), m(null, n.states.fontSize || 1), n.states.contrast && u(n.states.contrast))
 };
 document.addEventListener("DOMContentLoaded", init);
