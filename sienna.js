@@ -2,51 +2,68 @@ var thisScript = document.currentScript || (function() {
     var scripts = document.getElementsByTagName('script');
     return scripts[scripts.length - 1];
 })(); 
+
 var init = function() {
-    let n = {
+    let settings = {
         states: {}
     };
-    const t = function() {
-        ! function(n, t, e) {
+    const saveSettings = function() {
+         ! function(cname, cvalue, exdays) {
+            
             const a = new Date;
-            a.setTime(a.getTime() + 24 * e * 60 * 60 * 1e3);
-            let s = "expires=" + a.toUTCString();
-            document.cookie = n + "=" + t + ";" + s + ";path=/"
-        }("asw", JSON.stringify(n))
+            a.setTime(a.getTime() + 24 * exdays * 60 * 60 * 1e3);
+            let expires = "expires=" + a.toUTCString();
+            let cookieText = cname + "=" + cvalue + ";" + expires + ";path=/"
+            console.log("saving settings:" + cookieText );
+            document.cookie = cookieText
+            
+        }("asw", JSON.stringify(settings))
     };
-    let e = function(n) {
-        let t = n + "=",
-            e = decodeURIComponent(document.cookie).split(";");
-        for (let n = 0; n < e.length; n++) {
-            let a = e[n];
-            for (;
-                " " == a.charAt(0);) a = a.substring(1);
-            if (0 == a.indexOf(t)) return a.substring(t.length, a.length)
+
+    let getCookie = function(cname) {
+        let name = cname + "=",
+            decodedCookie = decodeURIComponent(document.cookie).split(";");
+        for (let i = 0; i < decodedCookie.length; i++) {
+            let a = decodedCookie[i];
+            for (;" " == a.charAt(0);) {
+                a = a.substring(1);
+            }
+            if (0 == a.indexOf(name)) {
+                return a.substring(name.length, a.length);
+            } 
         }
-        return ""
+        return "";
     }("asw");
+
     try {
-        e = JSON.parse(e)
-    } catch (n) {}
-    n = {
+        getCookie = JSON.parse(getCookie)
+    } catch (e) {
+
+    }
+    
+    settings = {
         states: {},
-        ...e
+        ...getCookie
     };
-    let a = ["format_size", "add", "remove", "restart_alt", "close"];
-    const s = function(t, e) {
-        let s = "";
-        for (var i = t.length; i--;) {
-            let o = t[i],
-                l = n.states[o.key];
-            "asw-filter" == e && n.states.contrast == o.key && (l = !0), s += `\n                <button class="asw-btn ${e||""} ${l?"asw-selected":""}" role="button" aria-pressed="false" data-key="${o.key}" arai-label="${o.label}" title="${o.label}" >\n                    <span class="material-icons">${o.icon}</span>\n                    ${o.label}\n                </button>\n            \n            `, a.push(o.icon)
+    
+    let icons = ["format_size", "add", "remove", "restart_alt", "close"];
+
+    const createButtons = function(filterPresets, btnClass) {
+        let _html = "";
+        for (var i = filterPresets.length; i--;) {
+            let o = filterPresets[i],
+                selected = settings.states[o.key];
+            "asw-filter" == btnClass && settings.states.contrast == o.key && (selected = !0), _html += `\n                <button class="asw-btn ${btnClass||""} ${selected?"asw-selected":""}" role="button" aria-pressed="false" data-key="${o.key}" arai-label="${o.label}" title="${o.label}" >\n                    <span class="material-icons">${o.icon}</span>\n                    ${o.label}\n                </button>\n            \n            `, icons.push(o.icon)
         }
-        return s
+        return _html
     };
+
     document.currentScript = document.currentScript || (function() {
         var scripts = document.getElementsByTagName('script');
         return scripts[scripts.length - 1];
     })();
-    let i = s([{
+
+    let contentPresets = createButtons([{
             label: "Readable Font",
             key: "readable-font",
             icon: "local_parking"
@@ -58,8 +75,9 @@ var init = function() {
             label: "Highlight Title",
             key: "highlight-title",
             icon: "title"
-        }]),
-        o = s([{
+        }])
+
+    let filterPresets = createButtons([{
             label: "Monochrome",
             key: "monochrome",
             icon: "filter_b_and_w"
@@ -83,8 +101,9 @@ var init = function() {
             label: "Dark Contrast",
             key: "dark-contrast",
             icon: "nightlight"
-        }], "asw-filter"),
-        l = s([ {
+        }], "asw-filter")
+
+    let tools = createButtons([ {
             label: "Stop Animations",
             key: "stop-animations",
             icon: "motion_photos_off"
@@ -93,7 +112,9 @@ var init = function() {
             key: "readable-guide",
             icon: "local_library"
         }], "asw-tools");
-    var r = document.createElement("div");
+
+    var accessibilityEl = document.createElement("div");
+
     const hex2rgb = (hex, alpha = 1) => {
         const [r, g, b] = hex.match(/\w\w/g).map(x => parseInt(x, 16));
         return `rgb(${r} ${g} ${b} / ${alpha}%)`;
@@ -128,126 +149,126 @@ var init = function() {
     var boxShadow1 =  hslToHex((157 +  hue - hueOffset) % 360, 45, 26); // original '#252c61', rgb(37 44 97 / 15%)
     var boxShadow2 =  hslToHex((157 +  hue - hueOffset) % 360, 23, 47); // originsl: '#5d6494', rgb(93 100 148 /20%)
    
-    r.innerHTML = `\n        
+    accessibilityEl.innerHTML = `\n        
 
-<link href="https://fonts.googleapis.com/icon?family=Material+Icons&text=${a.toString()}" rel="stylesheet">\n        
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons&text=${icons.toString()}" rel="stylesheet">        
 
-<style>\n
-    .asw-widget {\n
-        -webkit-user-select: none;\n
-        -moz-user-select: none;\n
-        -ms-user-select: none;\n
-        user-select: none;\n
-        font-family: Lato,sans-serif;\n
-        font-weight: 400;\n
-        -webkit-font-smoothing: antialiased;\n
-    }\n\n
+<style>
+    .asw-widget {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        font-family: Lato,sans-serif;
+        font-weight: 400;
+        -webkit-font-smoothing: antialiased;
+    }
 
-    .asw-widget * {\n
-        box-sizing: border-box;\n
-    }\n\n
+    .asw-widget * {
+        box-sizing: border-box;
+    }
 
-    .asw-menu-btn {\n
-        border:3px solid white;\n
-        position: fixed;\n
-        z-index: 500000;\n
-        left: 20px;\n
-        bottom: 20px;\n
-        background: ${iconColor};\n
-        box-shadow: 0 5px 15px 0 ${hex2rgb(boxShadow1, 15)}, 0 2px 4px 0 ${hex2rgb(boxShadow2, 20)};\n
-        transition: .3s;\n
-        border-radius: 50%;\n
-        align-items: center;\n
-        justify-content: center;\n
-        transform: translateY(0);\n
-        width: 64px;\n
-        height: 64px;\n
-        max-width: 5vw;\n
-        max-height: 5vw;\n
-        min-width: 9px;\n
-        min-height: 9px;\n
-        display: flex;\n
-        fill: white;\n
-        cursor: pointer;\n
-    }\n\n
+    .asw-menu-btn {
+        border:3px solid white;
+        position: fixed;
+        z-index: 500000;
+        left: 20px;
+        bottom: 20px;
+        background: ${iconColor};
+        box-shadow: 0 5px 15px 0 ${hex2rgb(boxShadow1, 15)}, 0 2px 4px 0 ${hex2rgb(boxShadow2, 20)};
+        transition: .3s;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        transform: translateY(0);
+        width: 64px;
+        height: 64px;
+        max-width: 5vw;
+        max-height: 5vw;
+        min-width: 9px;
+        min-height: 9px;
+        display: flex;
+        fill: white;
+        cursor: pointer;
+    }
 
-    .asw-menu-btn !important { \n
-        background: transparent !important;\n
-    }\n\n
+    .asw-menu-btn !important { 
+        background: transparent !important;
+    }
 
-    .asw-menu-btn:hover {\n
-        transform: scale(1.05);\n
-    }\n\n
+    .asw-menu-btn:hover {
+        transform: scale(1.05);
+    }
 
-    .asw-menu {\n
-        display: none;\n
-        position: fixed;\n
-        left: 20px;\n
-        top: 20px;\n
-        border-radius: 8px;\n
-        box-shadow: -1px 0 20px -14px #000;\n
-        opacity: 1;\n
-        transition: .3s;\n
-        z-index: 500000;\n
-        overflow: hidden;\n
-        background: #fff;\n
-        width: 500px;\n
-        line-height: 1;\n
-        font-size: 14px;\n
-        height: calc(100% - 40px - 75px);\n
-        letter-spacing: 0.015em;\n
-    }\n\n
+    .asw-menu {
+        display: none;
+        position: fixed;
+        left: 20px;
+        top: 20px;
+        border-radius: 8px;
+        box-shadow: -1px 0 20px -14px #000;
+        opacity: 1;
+        transition: .3s;
+        z-index: 500000;
+        overflow: hidden;
+        background: #fff;
+        width: 500px;
+        line-height: 1;
+        font-size: 14px;
+        height: calc(100% - 40px - 75px);
+        letter-spacing: 0.015em;
+    }
 
     .asw-menu-reset,
-    .asw-menu-close {\n
+    .asw-menu-close {
         border: none;
         font: inherit;
         color: inherit;
         background: none
-    }\n\n
+    }
 
-    .asw-menu-header {\n
-        display: flex;\n
-        align-items: center;\n
-        justify-content: space-between;\n
-        background: ${barColor};\n
-        color: white;\n
-        padding-left: 12px;\n
-        font-weight: 600;\n
-    }\n\n
+    .asw-menu-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: ${barColor};
+        color: white;
+        padding-left: 12px;
+        font-weight: 600;
+    }
 
-    .asw-menu-header > div {\n
-        display: flex;\n
-    }\n\n
+    .asw-menu-header > div {
+        display: flex;
+    }
     
-    .asw-menu-header button[role="button"] {\n
-        padding: 12px;\n
-    }\n\n
+    .asw-menu-header button[role="button"] {
+        padding: 12px;
+    }
 
-    .asw-menu-header button[role="button"]:hover {\n
-        opacity: 0.8;\n
-    }\n\n
+    .asw-menu-header button[role="button"]:hover {
+        opacity: 0.8;
+    }
 
-    .asw-items {\n
-        display: flex;\n
-        margin: -8px;\n
-        padding: 0;\n
-        list-style: none;\n
-        flex-wrap: wrap;\n
-    }\n\n
+    .asw-items {
+        display: flex;
+        margin: -8px;
+        padding: 0;
+        list-style: none;
+        flex-wrap: wrap;
+    }
 
-    .asw-btn {\n
-        width: 140px;\n
-        height: 120px;\n
-        border-radius: 8px;\n
-        margin: 8px;\n
-        padding: 15px;\n
-        display: flex;\n
-        align-items: center;\n
-        justify-content: center;\n
-        flex-direction: column;\n
-        text-align: center;\n
-        color: #333;\n
+    .asw-btn {
+        width: 140px;
+        height: 120px;
+        border-radius: 8px;
+        margin: 8px;
+        padding: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        text-align: center;
+        color: #333;
         font-size: 14px !important;
         background: ${tileColor};
         border: 3px solid ${tileColor};
@@ -302,328 +323,479 @@ var init = function() {
     }
 
     .asw-card-title {
-        font-size: 18px;\n
-        padding: 15px 0;\n
-    }\n\n
+        font-size: 18px;
+        padding: 15px 0;
+    }
 
-    .asw-adjust-font {\n
-        background: ${tileColor};\n
-        padding: 20px 25px;\n
-        margin-bottom: 16px;\n
-    }\n\n
+    .asw-adjust-font {
+        background: ${tileColor};
+        padding: 20px 25px;
+        margin-bottom: 16px;
+    }
 
-    .asw-adjust-font label {\n
-        display: flex;\n
-        align-items: center;\n
-    }\n\n
+    .asw-adjust-font label {
+        display: flex;
+        align-items: center;
+    }
 
-    .asw-adjust-font > div {\n
-        display: flex;\n
-        justify-content: space-between;\n
-        margin-top: 20px;\n
-        align-items: center;\n
-        font-size: 16px;\n
-        font-weight: 700;\n
-    }\n\n
+    .asw-adjust-font > div {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        align-items: center;
+        font-size: 16px;
+        font-weight: 700;
+    }
 
-    .asw-adjust-font button[role="button"] {\n
-        background: ${buttonColor};\n
-        border-radius: 50%;\n
-        border: none;\n
-        width: 36px;\n
-        height: 36px;\n
-        display: flex;\n
-        align-items: center;\n
-        justify-content: center;\n
-        color: white;\n
-    }\n\n
+    .asw-adjust-font button[role="button"] {
+        background: ${buttonColor};
+        border-radius: 50%;
+        border: none;
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+    }
 
-    .asw-overlay {\n
-        position: fixed;\n
-        top: 0;\n
-        left: 0;\n
-        width: 100%;\n
-        height: 100%;\n
-        z-index: 10000;\n
-        display: none;\n
-    }\n\n
+    .asw-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 10000;
+        display: none;
+    }
 
-    @media only screen and (max-width: 550px) {\n
-        .asw-menu {\n
-            width: calc(100vw - 20px);\n
-            left: 10px;\n
-        }\n\n
+    @media only screen and (max-width: 550px) {
+        .asw-menu {
+            width: calc(100vw - 20px);
+            left: 10px;
+        }
 
-        .asw-btn {\n
-            width: calc(25% + 12px);\n
-            margin: 4px;\n
-        }\n
-    }\n
-    @media only screen and (max-width: 1000px) {\n
+        .asw-btn {
+            width: calc(25% + 12px);
+            margin: 4px;
+        }
+    }
+    @media only screen and (max-width: 1000px) {
 
         @media (min-width: 451px) {
-            .asw-menu-btn {\n
-                border:2px solid white;\n
-                left: 7px;\n
-                bottom: 7px;\n
+            .asw-menu-btn {
+                border:2px solid white;
+                left: 7px;
+                bottom: 7px;
                 padding: 1px 3px;
-            }\n
+            }
     
-            .asw-menu {\n
-                height: calc(100% - 35px - 4vw);\n
-                left: 15px;\n
+            .asw-menu {
+                height: calc(100% - 35px - 4vw);
+                left: 15px;
                 top: 12px;
-            }\n
+            }
         }
 
         .asw-menu-btn {
-            box-shadow: 0 2px 5px 0 ${hex2rgb(boxShadow1, 15)}, 0 1px 2px 0 ${hex2rgb(boxShadow2, 20)};\n
+            box-shadow: 0 2px 5px 0 ${hex2rgb(boxShadow1, 15)}, 0 1px 2px 0 ${hex2rgb(boxShadow2, 20)};
         }
         .asw-menu-content {
             overflow: scroll;
             max-height: 100%;
         }
 
-        .asw-footer {\n
+        .asw-footer {
             padding:0px;
             display:none; !important;
-        }\n
+        }
 
-        .asw-menu-header button[role="button"] {\n
-            padding: 8px;\n
-        }\n\n
-    }\n\n
+        .asw-menu-header button[role="button"] {
+            padding: 8px;
+        }
+    }
 
-    @media only screen and (max-width: 450px) and  (min-width: 301px)  {\n
-        .asw-menu-btn {\n
-            border:1px solid white;\n
-            left: 5px;\n
-            bottom: 5px;\n
+    @media only screen and (max-width: 450px) and  (min-width: 301px)  {
+        .asw-menu-btn {
+            border:1px solid white;
+            left: 5px;
+            bottom: 5px;
             padding: 1px 3px;
-        }\n
+        }
 
-        .asw-menu {\n
-            height: calc(100% - 22px - 4vw);\n
+        .asw-menu {
+            height: calc(100% - 22px - 4vw);
             top: 5px;
-            left: 10px;\n
-        }\n
+            left: 10px;
+        }
 
-        .asw-menu-header button[role="button"] {\n
-            padding: 4px;\n
-        }\n\n
-    }\n\n
+        .asw-menu-header button[role="button"] {
+            padding: 4px;
+        }
+    }
 
-    @media  (max-width: 300px){\n
-        .asw-menu-btn {\n
-            border:1px solid white;\n
-            left: 4px;\n
-            bottom: 4px;\n
+    @media  (max-width: 300px){
+        .asw-menu-btn {
+            border:1px solid white;
+            left: 4px;
+            bottom: 4px;
             padding: 1px 1px;
-        }\n
+        }
 
-        .asw-menu {\n
-            height: calc(100% - 16px - 4vw );\n
+        .asw-menu {
+            height: calc(100% - 16px - 4vw );
             top: 5px;
             left: 8px;
-        }\n
+        }
 
-        .asw-menu-header button[role="button"] {\n
-            padding: 4px;\n
-        }\n\n
-    }\n\n
+        .asw-menu-header button[role="button"] {
+            padding: 4px;
+        }
+    }
 
-</style>\n
+</style>
         
-        <div class="asw-widget">\n            
-            <button class="asw-menu-btn" title="Open Accessibility Menu" role="button" aria-expanded="false">\n                
+        <div class="asw-widget">            
+            <button class="asw-menu-btn" title="Open Accessibility Menu" role="button" aria-expanded="false">                
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="34px" height="34px">
                     <path d="M0 0h24v24H0V0z" fill="none"/><path d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
-                </svg>\n
-            </button>\n    
-            <div class="asw-menu">\n                
-                <div class="asw-menu-header">\n
-                    Accessibility Menu\n
-                    <div>\n
-                        <button role="button" class="asw-menu-reset"  title="Reset Settings">\n
-                            <span class="material-icons">\n
-                                restart_alt\n
-                            </span>\n
-                        </button>\n
-                        <button role="button" class="asw-menu-close" title="Close Accessibility Menu">\n
-                            <span class="material-icons">\n
-                                close\n
-                            </span>\n
-                        </button>\n
-                    </div>\n\n
-                </div>\n
-                <div class="asw-menu-content">\n
-                    <div class="asw-card" style="margin-top: 15px;">\n
-                        <div class="asw-card-title">\n
-                            Content Adjustments\n
-                        </div>\n\n
-                        <div class="asw-adjust-font">\n
-                            <label>\n
-                                <span class="material-icons" style="margin-right:8px;">\n
-                                    format_size\n
-                                </span>\n
-                                Adjust Font Size\n
-                            </label>\n
-                            <div>\n
-                                <button class="asw-minus" data-key="font-size" role="button" aria-pressed="false">\n
-                                    <span class="material-icons">\n
-                                        remove\n
-                                    </span>\n
-                                </button>\n
-                                <div class="asw-amount">\n
-                                    ${n.states.fontSize&&1!=n.states.fontSize?`${parseInt(100*n.states.fontSize)}%`:"Default"}\n
-                                </div>\n
-                                <button class="asw-plus" data-key="font-size" role="button" aria-pressed="false">\n
-                                    <span class="material-icons">\n
-                                        add\n
-                                    </span>\n
-                                </button>\n
-                            </div>\n
-                        </div>\n\n
-                        <div class="asw-items">\n
-                            ${i}\n
-                        </div>\n
-                    </div>\n\n
-                    <div class="asw-card" style="margin-top: 15px;">\n
-                        <div class="asw-card-title">\n
-                            Color Adjustments\n
-                        </div>\n
-                        <div class="asw-items">\n
-                            ${o}\n
-                        </div>\n
-                    </div>\n\n
-                    <div class="asw-card" style="margin-top: 15px;">\n
-                        <div class="asw-card-title">\n
-                            Tools\n
-                        </div>\n
-                        <div class="asw-items">\n
-                            ${l}\n
-                        </div>\n
-                    </div>\n
-                </div>\n\n
-                <div class="asw-footer">\n
-                    <!--  Accessibility  Widget by <a href="https://bennyluk.github.io/Sienna-Accessibility-Widget/">Sienna</a>\n  -->
-                </div>\n
-            </div>\n\n
-            <div class="asw-overlay">\n
-            </div>\n
-        </div>\n`;
-    const d = function(n, t) {
-            let e = document.getElementById(t || "") || document.createElement("style");
-            e.innerHTML = n, e.id || (e.id = t, document.head.appendChild(e))
-        },
-        c = function(n, t) {
-            let e = "",
-                a = ["-o-", "-ms-", "-moz-", "-webkit", ""];
-            for (var s = a.length; s--;) e += a[s] + (t || "filter") + ":" + n + ";";
-            return e
-        },
-        u = function(n) {
-            let t = "";
-            if (n) {
-                let a = "";
-                "dark-contrast" == n ? a = "color: #fff !important;fill: #FFF !important;background-color: #000 !important;" : "light-contrast" == n ? a = " color: #000 !important;fill: #000 !important;background-color: #FFF !important;" : "high-contrast" == n ? a += c("contrast(125%)") : "high-saturation" == n ? a += c("saturate(200%)") : "low-saturation" == n ? a += c("saturate(50%)") : "monochrome" == n && (a += c("grayscale(100%)"));
-                let s = [""];
-                "dark-contrast" != n && "light-contrast" != n || (s = ["h1", "h2", "h3", "h4", "h5", "h6", "img", "p", "i", "svg", "a", "label", "li", "ol"]);
-                for (var e = s.length; e--;) t += '[data-asw-filter="' + n + '"] ' + s[e] + "{" + a + "}"
+                </svg>
+            </button>    
+            <div class="asw-menu">                
+                <div class="asw-menu-header">
+                    Accessibility Menu
+                    <div>
+                        <button role="button" class="asw-menu-reset"  title="Reset Settings">
+                            <span class="material-icons">
+                                restart_alt
+                            </span>
+                        </button>
+                        <button role="button" class="asw-menu-close" title="Close Accessibility Menu">
+                            <span class="material-icons">
+                                close
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="asw-menu-content">
+                    <div class="asw-card" style="margin-top: 15px;">
+                        <div class="asw-card-title">
+                            Content Adjustments
+                        </div>
+                        <div class="asw-adjust-font">
+                            <label>
+                                <span class="material-icons" style="margin-right:8px;">
+                                    format_size
+                                </span>
+                                Adjust Font Size
+                            </label>
+                            <div>
+                                <button class="asw-minus" data-key="font-size" role="button" aria-pressed="false">
+                                    <span class="material-icons">
+                                        remove
+                                    </span>
+                                </button>
+                                <div class="asw-amount">
+                                    ${settings.states.fontSize&&1!=settings.states.fontSize?`${parseInt(100*settings.states.fontSize)}%`:"Default"}
+                                </div>
+                                <button class="asw-plus" data-key="font-size" role="button" aria-pressed="false">
+                                    <span class="material-icons">
+                                        add
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="asw-items">
+                            ${contentPresets}
+                        </div>
+                    </div>
+                    <div class="asw-card" style="margin-top: 15px;">
+                        <div class="asw-card-title">
+                            Color Adjustments
+                        </div>
+                        <div class="asw-items">
+                            ${filterPresets}
+                        </div>
+                    </div>
+                    <div class="asw-card" style="margin-top: 15px;">
+                        <div class="asw-card-title">
+                            Tools
+                        </div>
+                        <div class="asw-items">
+                            ${tools}
+                        </div>
+                    </div>
+                </div>
+                <div class="asw-footer">
+                    <!--  Accessibility  Widget by <a href="https://bennyluk.github.io/Sienna-Accessibility-Widget/">Sienna</a>  -->
+                </div>
+            </div>
+            <div class="asw-overlay">
+            </div>
+        </div>`;
+
+
+    const addStyleSheet = function(css, id) {
+        let style = document.getElementById(id || "") || document.createElement("style");
+        style.innerHTML = css, style.id || (style.id = id, document.head.appendChild(style))
+    }
+
+    const getFilterCSS = function(filter, cssProp) {
+        let e = "",
+            a = ["-o-", "-ms-", "-moz-", "-webkit", ""];
+        for (var s = a.length; s--;) e += a[s] + (cssProp || "filter") + ":" + filter + ";";
+        return e
+    }
+
+    const changeFilter = function(key) {
+        let t = "";
+        if (key) {
+            let _css = "";
+            "dark-contrast" == key ?
+                _css = "color: #fff !important;fill: #FFF !important;background-color: #000 !important;" : 
+            "light-contrast" == key ? 
+                _css = " color: #000 !important;fill: #000 !important;background-color: #FFF !important;" : 
+            "high-contrast" == key ?
+                 _css += getFilterCSS("contrast(125%)") : 
+            "high-saturation" == key ? 
+                _css += getFilterCSS("saturate(200%)") : 
+            "low-saturation" == key ?
+                _css += getFilterCSS("saturate(50%)") : 
+            "monochrome" == key && (_css += getFilterCSS("grayscale(100%)"));
+
+            let childrenSelector = [""];
+            "dark-contrast" != key && "light-contrast" != key || (childrenSelector = ["h1", "h2", "h3", "h4", "h5", "h6", "img", "p", "i", "svg", "a", "label", "li", "ol"]);
+            
+            for (var e = childrenSelector.length; e--;)  {
+                t += '[data-asw-filter="' + key + '"] ' + childrenSelector[e] + "{" + _css + "}"
             }
-            d(t, "asw-filter-style"), n ? document.documentElement.setAttribute("data-asw-filter", n) : document.documentElement.removeAttribute("data-asw-filter", n)
-        },
-        p = function() {
-            let t = [{
-                    id: "highlight-title",
-                    childrenSelector: ["h1", "h2", "h3", "h4", "h5", "h6"],
-                    css: `outline: 2px solid ${iconColor} !important;outline-offset: 2px !important;`
-                }, {
-                    id: "highlight-links",
-                    childrenSelector: ["a[href]"],
-                    css: `outline: 2px solid ${iconColor} !important;outline-offset: 2px !important;`
-                }, {
-                    id: "readable-font",
-                    childrenSelector: ["", "h1", "h2", "h3", "h4", "h5", "h6", "img", "p", "i", "svg", "a", "button", "label", "li", "ol"],
-                    css: "font-family: Arial,Helvetica,sans-serif !important;"
-                }],
-                e = "";
-            for (var a = t.length; a--;) {
-                let i = t[a];
-                if (document.documentElement.classList.toggle(i.id, !!n.states[i.id]), n.states[i.id])
-                    for (var s = i.childrenSelector.length; s--;) e += "." + i.id + " " + i.childrenSelector[s] + "{" + i.css + "}"
-            }
-            var i = document.querySelector(".asw-rg-container");
-            if (n.states["readable-guide"]) {
-                if (!i) {
-                    var o = document.createElement("div");
-                    o.setAttribute("class", "asw-rg-container"), o.innerHTML = '\n                    <style>\n                        .asw-rg {\n                            position: fixed;\n                            top: 0;\n                            left: 0;\n                            right: 0;\n                            width: 100%;\n                            height: 0;\n                            pointer-events: none;\n                            background-color: rgba(0,0,0,.5);\n                            z-index: 1000000;\n                        }\n                    </style>\n                    <div class="asw-rg asw-rg-top"></div>\n                    <div class="asw-rg asw-rg-bottom" style="top: auto;bottom: 0;"></div>\n                ';
-                    let n = o.querySelector(".asw-rg-top"),
-                        t = o.querySelector(".asw-rg-bottom"),
-                        e = 20;
-                    window.onScrollReadableGuide = function(a) {
-                        n.style.height = a.clientY - e + "px", t.style.height = window.innerHeight - a.clientY - e - e + "px"
-                    }, document.addEventListener("mousemove", window.onScrollReadableGuide, !1), document.body.appendChild(o)
+        }
+        
+        addStyleSheet(t, "asw-filter-style")
+        
+        key ? document.documentElement.setAttribute("data-asw-filter", key) : document.documentElement.removeAttribute("data-asw-filter", key)
+    } 
+    const changeControls = function() {
+        let styles = [{
+                id: "highlight-title",
+                childrenSelector: ["h1", "h2", "h3", "h4", "h5", "h6"],
+                css: `outline: 2px solid ${iconColor} !important;outline-offset: 2px !important;`
+            }, {
+                id: "highlight-links",
+                childrenSelector: ["a[href]"],
+                css: `outline: 2px solid ${iconColor} !important;outline-offset: 2px !important;`
+            }, {
+                id: "readable-font",
+                childrenSelector: ["", "h1", "h2", "h3", "h4", "h5", "h6", "img", "p", "i", "svg", "a", "button", "label", "li", "ol"],
+                css: "font-family: Arial,Helvetica,sans-serif !important;"
+            }];
+
+        css = "";
+
+        for (var a = styles.length; a--;) {
+            let style = styles[a];
+            if (document.documentElement.classList.toggle(style.id, !!settings.states[style.id]), settings.states[style.id]) {
+                for (var s = style.childrenSelector.length; s--;)  {
+                    css += "." + style.id + " " + style.childrenSelector[s] + "{" + style.css + "}"
                 }
-            } else i && (i.remove(), document.removeEventListener("mousemove", window.onScrollReadableGuide));
-            n.states["stop-animations"] && (e += `\n
-                            body * {\n
-                                ${c("none !important","transition")}\n
-                                ${c("forwards !important","animation-fill-mode")}\n
-                                ${c("1 !important"," animation-iteration-count")}\n
-                                ${c(".01s !important","animation-duration")}\n
-                        }\n
-                        `),
-            //n.states["big-cursor"] && (e += "\n body * {\n                    cursor: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 512 512'%3E%3Cpath  d='M429.742 319.31L82.49 0l-.231 471.744 105.375-100.826 61.89 141.083 96.559-42.358-61.89-141.083 145.549-9.25zM306.563 454.222l-41.62 18.259-67.066-152.879-85.589 81.894.164-333.193 245.264 225.529-118.219 7.512 67.066 152.878z' xmlns='http://www.w3.org/2000/svg'/%3E%3C/svg%3E\") ,default !important;\n                }\n            "),
-            d(e, "asw-content-style")
-        };
-    var f = function(e) {
-        e.preventDefault();
-        let a = e.currentTarget,
-            s = a.dataset.key;
-        a.classList.contains("asw-filter") ? (document.querySelectorAll(".asw-filter").forEach(function(n) {
-            n.classList.remove("asw-selected"), n.setAttribute("aria-pressed", "false")
-        }), n.states.contrast = n.states.contrast !== s && s, n.states.contrast && (a.classList.add("asw-selected"), a.setAttribute("aria-pressed", "true")), u(n.states.contrast)) : (n.states[s] = !n.states[s], a.classList.toggle("asw-selected", n.states[s]), a.setAttribute("aria-pressed", n.states[s] ? "true" : "false"), p()), t()
+
+            }
+        }
+
+        var rgs = document.querySelector(".asw-rg-container");
+        if (settings.states["readable-guide"]) {
+            if (!rgs) {
+                var rgEl = document.createElement("div");
+                rgEl.setAttribute("class", "asw-rg-container")
+                rgEl.innerHTML = `
+                    <style>
+                        .asw-rg {
+                            position: fixed;
+                            top: 0;
+                            left: 0;
+                            right: 0;
+                            width: 100%;
+                            height: 0;
+                            pointer-events: none;
+                            background-color: rgba(0,0,0,.5);
+                            z-index: 1000000;
+                        }
+                    </style>
+                    <div class="asw-rg asw-rg-top"></div>
+                    <div class="asw-rg asw-rg-bottom" style="top: auto;bottom: 0;"></div>
+                `;
+
+                let rgTop = rgEl.querySelector(".asw-rg-top")
+                let rgBottom = rgEl.querySelector(".asw-rg-bottom")
+                let margin = 20;
+
+                window.onScrollReadableGuide = function(event) {
+                    rgTop.style.height = event.clientY - margin + "px"
+                    rgBottom.style.height = window.innerHeight - event.clientY - margin - margin + "px"
+                }
+                
+                document.addEventListener("mousemove", window.onScrollReadableGuide, false)
+                document.body.appendChild(rgEl)
+            }
+
+        } else rgs && (rgs.remove(), document.removeEventListener("mousemove", window.onScrollReadableGuide));
+
+        settings.states["stop-animations"] && (css += `\n
+                        body * {\n
+                            ${getFilterCSS("none !important","transition")}\n
+                            ${getFilterCSS("forwards !important","animation-fill-mode")}\n
+                            ${getFilterCSS("1 !important"," animation-iteration-count")}\n
+                            ${getFilterCSS(".01s !important","animation-duration")}\n
+                    }\n
+                    `),
+        //n.states["big-cursor"] && (e += "\n body * {\n                    cursor: url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 512 512'%3E%3Cpath  d='M429.742 319.31L82.49 0l-.231 471.744 105.375-100.826 61.89 141.083 96.559-42.358-61.89-141.083 145.549-9.25zM306.563 454.222l-41.62 18.259-67.066-152.879-85.589 81.894.164-333.193 245.264 225.529-118.219 7.512 67.066 152.878z' xmlns='http://www.w3.org/2000/svg'/%3E%3C/svg%3E\") ,default !important;\n                }\n            "),
+        addStyleSheet(css, "asw-content-style")
     };
-    const m = function(t, e) {
-        let a = !1;
-        !e && t && (a = t.currentTarget, e = parseFloat(n.states.fontSize) || 1, a.classList.contains("asw-minus") ? e -= .1 : e += .1, e = Math.max(e, .1), e = Math.min(e, 2), e = parseFloat(e.toFixed(2))), document.querySelectorAll("h1,h2,h3,h4,h5,h6,p,a,dl,dt,li,ol,th,td,span").forEach(function(n) {
-            if (!n.classList.contains("material-icons")) {
-                let t = n.getAttribute("data-asw-orgFontSize");
-                t || (t = parseInt(window.getComputedStyle(n, null).getPropertyValue("font-size")), n.setAttribute("data-asw-orgFontSize", t));
-                let a = t * e;
-                n.style["font-size"] = a + "px"
+
+    var clickItem = function(event) {
+        event.preventDefault();
+        let target = event.currentTarget,
+            key = target.dataset.key;
+
+        if(target.classList.contains("asw-filter")) {
+            document.querySelectorAll(".asw-filter").forEach(function(items) {
+                items.classList.remove("asw-selected")
+                items.setAttribute("aria-pressed", "false")
+            });
+
+            settings.states.contrast = settings.states.contrast !== key && key
+            
+            if(settings.states.contrast) {
+                target.classList.add("asw-selected")
+                target.setAttribute("aria-pressed", "true");
+            }
+
+            changeFilter(settings.states.contrast);
+
+        } else {
+            settings.states[key] = !settings.states[key];
+            target.classList.toggle("asw-selected", settings.states[key]);
+            target.setAttribute("aria-pressed", settings.states[key] ? "true" : "false");
+
+            changeControls();
+        }
+
+        saveSettings();
+    };
+
+    const changeFont = function(event, newValue) {
+        let target = false;
+
+        if(!newValue && event) {
+            target = event.currentTarget;
+            newValue = parseFloat(settings.states.fontSize) || 1;
+            target.classList.contains("asw-minus") ? newValue -= .1 : newValue += .1;
+            newValue = Math.max(newValue, .1);
+            newValue = Math.min(newValue, 2);
+            newValue = parseFloat(newValue.toFixed(2))
+        }
+
+        let text = document.querySelectorAll("h1,h2,h3,h4,h5,h6,p,a,dl,dt,li,ol,th,td,span");
+        text.forEach(function(textItem) {
+            if (!textItem.classList.contains("material-icons")) {
+                let orgFontSize = textItem.getAttribute("data-asw-orgFontSize");
+                if(!orgFontSize) {
+                    orgFontSize = parseInt(window.getComputedStyle(textItem, null).getPropertyValue("font-size"))
+                    textItem.setAttribute("data-asw-orgFontSize", orgFontSize)
+                }
+        
+                let newFontSize = orgFontSize * newValue;
+                textItem.style["font-size"] = newFontSize + "px"
             }
         });
-        let s = "Default";
-        1 !== e && (e > 1 ? s = "+" : e < 1 && (s = "-"), s += parseInt(100 * e) + "%"), a && (a.parentElement.querySelector(".asw-amount").innerHTML = s), e && (n.states.fontSize = e)
+
+        let label = "Default";
+
+        if(newValue !== 1) {
+            if(newValue > 1) {
+                label = '+';
+            } else if(newValue < 1) {
+                label = '-';
+            }
+            label += parseInt(newValue * 100) + '%';
+        }
+
+        if(target) {
+            target.parentElement.querySelector('.asw-amount').innerHTML = label;
+        }
+
+        settings.states['fontSize'] = newValue;
     };
-    let h = r.querySelector(".asw-menu"),
-        g = r.querySelector(".asw-overlay");
-    r.querySelector(".asw-menu-btn").addEventListener("click", function() {
-        h.style.display = "block" == h.style.display ? "none" : "block", g.style.display = h.style.display
-    }, !1), h.querySelector(".asw-menu-close").addEventListener("click", function() {
-        h.style.display = "none", g.style.display = h.style.display
-    }, !1), g.addEventListener("click", function() {
-        h.style.display = "none", g.style.display = h.style.display
-    }, !1), h.querySelector(".asw-menu-reset").addEventListener("click", function() {
-        n.states = {}, u(), p(), m(void 0, 1), document.querySelectorAll(".asw-btn").forEach(function(n) {
-            n.classList.remove("asw-selected"), n.setAttribute("aria-pressed", "false")
-        }), document.querySelectorAll(".asw-amount").forEach(function(n) {
-            n.innerHTML = "Default"
-        }), t()
-    }, !1), h.querySelectorAll(".asw-btn").forEach(function(n) {
-        n.addEventListener("click", f, !1)
-    }), h.querySelectorAll(".asw-adjust-font button[role='button']").forEach(function(n) {
-        n.addEventListener("click", m, !1)
-    }),h.querySelectorAll(".asw-adjust-font div[role='button']").forEach(function(n) {
-        n.addEventListener("click", m, !1)
-    }),  
+    const resetSettings = function() {
+        settings.states = {};
+        changeFilter();
+        changeControls();
+        changeFont(undefined, 1);
+
+        document.querySelectorAll(".asw-btn").forEach(function(item) {
+            item.classList.remove("asw-selected");
+            item.setAttribute("aria-pressed", "false");
+        })
+        
+        document.querySelectorAll(".asw-amount").forEach(function(item) {
+            item.innerHTML = "Default";
+        });
+
+        saveSettings();
+    };
+
+    let menu = accessibilityEl.querySelector(".asw-menu");
+    let overlay = accessibilityEl.querySelector(".asw-overlay");
+
+    accessibilityEl.querySelector(".asw-menu-btn").addEventListener("click", function() {
+        menu.style.display = "block" == menu.style.display ? "none" : "block";
+        overlay.style.display = menu.style.display;
+    }, false);
+    
+    menu.querySelector(".asw-menu-close").addEventListener("click", function() {
+        menu.style.display = "none";
+         overlay.style.display = menu.style.display;
+    }, false);
+    
+    overlay.addEventListener("click", function() {
+        menu.style.display = "none";
+        overlay.style.display = menu.style.display;
+    }, false);
+    
+    menu.querySelector(".asw-menu-reset").addEventListener("click", resetSettings, false);
+    
+    menu.querySelectorAll(".asw-btn").forEach(function(n) {
+        n.addEventListener("click", clickItem, false)
+    });
+    
+    menu.querySelectorAll(".asw-adjust-font button[role='button']").forEach(function(n) {
+        n.addEventListener("click", changeFont, false)
+    });
+    
+    menu.querySelectorAll(".asw-adjust-font div[role='button']").forEach(function(n) {
+        n.addEventListener("click", changeFont, false)
+    });
+
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
-            h.style.display = "none", g.style.display = h.style.display
+            menu.style.display = "none", overlay.style.display = menu.style.display
         }
-      })
-    document.body.appendChild(r), m(null, 1), e && (p(), m(null, n.states.fontSize || 1), n.states.contrast && u(n.states.contrast))
+    });
+
+    // document.body.appendChild(accessibilityEl)
+   
+    document.body.prepend(accessibilityEl);
+   
+    // changeFont(null, 1)
+
+    if(getCookie) {
+        changeControls();
+        changeFont(null, settings.states.fontSize || 1);
+        if(settings.states.contrast) {
+            changeFilter(settings.states.contrast);
+        }
+
+    }
 };
+
 document.addEventListener("DOMContentLoaded", init);
