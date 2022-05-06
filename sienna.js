@@ -14,10 +14,9 @@ var init = function() {
             a.setTime(a.getTime() + 24 * exdays * 60 * 60 * 1e3);
             let expires = "expires=" + a.toUTCString();
             let cookieText = cname + "=" + cvalue + ";" + expires + ";path=/"
-            console.log("saving settings:" + cookieText );
             document.cookie = cookieText
             
-        }("asw", JSON.stringify(settings))
+        }("asw", JSON.stringify(settings),30);
     };
 
     let getCookie = function(cname) {
@@ -53,7 +52,17 @@ var init = function() {
         for (var i = filterPresets.length; i--;) {
             let o = filterPresets[i],
                 selected = settings.states[o.key];
-            "asw-filter" == btnClass && settings.states.contrast == o.key && (selected = !0), _html += `\n                <button class="asw-btn ${btnClass||""} ${selected?"asw-selected":""}" role="button" aria-pressed="false" data-key="${o.key}" arai-label="${o.label}" title="${o.label}" >\n                    <span class="material-icons">${o.icon}</span>\n                    ${o.label}\n                </button>\n            \n            `, icons.push(o.icon)
+            "asw-filter" == btnClass && settings.states.contrast == o.key && (selected = !0), _html += `
+                <button class="asw-btn ${btnClass||""} ${selected?"asw-selected":""}" role="button" aria-pressed="false" data-key="${o.key}">
+                    <span class="material-icons">
+                        ${o.icon}
+                    </span>
+                    <h1 class="asw-button-header reset-this" aria-label="${o.label}" title="${o.label}">
+                        ${o.label}
+                    </h1>
+                </button>
+            `;
+            icons.push(o.icon);
         }
         return _html
     };
@@ -145,7 +154,7 @@ var init = function() {
     let iconColor =   hslToHex((157 +  hue - hueOffset) % 360, 53, 32); // was '#0048ff', for main icon, borders and card selected background
     
     var tileColor =   hslToHex((38 +  hue - hueOffset) % 360, 93, 84); // original: '#ecf3ff', for tile background
-    var buttonColor =  hslToHex((8 +  hue - hueOffset) % 360, 77, 69); //was original: '#0648ff' font button color
+    var buttonColor =  hslToHex((8 +  hue - hueOffset) % 360, 84, 54); //was original: '#0648ff' font button color
     var boxShadow1 =  hslToHex((157 +  hue - hueOffset) % 360, 45, 26); // original '#252c61', rgb(37 44 97 / 15%)
     var boxShadow2 =  hslToHex((157 +  hue - hueOffset) % 360, 23, 47); // originsl: '#5d6494', rgb(93 100 148 /20%)
    
@@ -154,6 +163,159 @@ var init = function() {
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons&text=${icons.toString()}" rel="stylesheet">        
 
 <style>
+
+    .reset-this {
+        animation : none;
+        animation-delay : 0;
+        animation-direction : normal;
+        animation-duration : 0;
+        animation-fill-mode : none;
+        animation-iteration-count : 1;
+        animation-name : none;
+        animation-play-state : running;
+        animation-timing-function : ease;
+        backface-visibility : visible;
+        background : 0;
+        background-attachment : scroll;
+        background-clip : border-box;
+        background-color : transparent;
+        background-image : none;
+        background-origin : padding-box;
+        background-position : 0 0;
+        background-position-x : 0;
+        background-position-y : 0;
+        background-repeat : repeat;
+        background-size : auto auto;
+        border : 0;
+        border-style : none;
+        border-width : medium;
+        border-color : inherit;
+        border-bottom : 0;
+        border-bottom-color : inherit;
+        border-bottom-left-radius : 0;
+        border-bottom-right-radius : 0;
+        border-bottom-style : none;
+        border-bottom-width : medium;
+        border-collapse : separate;
+        border-image : none;
+        border-left : 0;
+        border-left-color : inherit;
+        border-left-style : none;
+        border-left-width : medium;
+        border-radius : 0;
+        border-right : 0;
+        border-right-color : inherit;
+        border-right-style : none;
+        border-right-width : medium;
+        border-spacing : 0;
+        border-top : 0;
+        border-top-color : inherit;
+        border-top-left-radius : 0;
+        border-top-right-radius : 0;
+        border-top-style : none;
+        border-top-width : medium;
+        bottom : auto;
+        box-shadow : none;
+        box-sizing : content-box;
+        caption-side : top;
+        clear : none;
+        clip : auto;
+        color : inherit;
+        columns : auto;
+        column-count : auto;
+        column-fill : balance;
+        column-gap : normal;
+        column-rule : medium none currentColor;
+        column-rule-color : currentColor;
+        column-rule-style : none;
+        column-rule-width : none;
+        column-span : 1;
+        column-width : auto;
+        content : normal;
+        counter-increment : none;
+        counter-reset : none;
+        cursor : auto;
+        direction : ltr;
+        display : inline;
+        empty-cells : show;
+        float : none;
+        font : normal;
+        font-family : inherit;
+        font-size : medium;
+        font-style : normal;
+        font-variant : normal;
+        font-weight : normal;
+        height : auto;
+        hyphens : none;
+        left : auto;
+        letter-spacing : normal;
+        line-height : normal;
+        list-style : none;
+        list-style-image : none;
+        list-style-position : outside;
+        list-style-type : disc;
+        margin : 0;
+        margin-bottom : 0;
+        margin-left : 0;
+        margin-right : 0;
+        margin-top : 0;
+        max-height : none;
+        max-width : none;
+        min-height : 0;
+        min-width : 0;
+        opacity : 1;
+        orphans : 0;
+        outline : 0;
+        outline-color : invert;
+        outline-style : none;
+        outline-width : medium;
+        overflow : visible;
+        overflow-x : visible;
+        overflow-y : visible;
+        padding : 0;
+        padding-bottom : 0;
+        padding-left : 0;
+        padding-right : 0;
+        padding-top : 0;
+        page-break-after : auto;
+        page-break-before : auto;
+        page-break-inside : auto;
+        perspective : none;
+        perspective-origin : 50% 50%;
+        position : static;
+        right : auto;
+        tab-size : 8;
+        table-layout : auto;
+        text-align : inherit;
+        text-align-last : auto;
+        text-decoration : none;
+        text-decoration-color : inherit;
+        text-decoration-line : none;
+        text-decoration-style : solid;
+        text-indent : 0;
+        text-shadow : none;
+        text-transform : none;
+        top : auto;
+        transform : none;
+        transform-style : flat;
+        transition : none;
+        transition-delay : 0s;
+        transition-duration : 0s;
+        transition-property : none;
+        transition-timing-function : ease;
+        unicode-bidi : normal;
+        vertical-align : baseline;
+        visibility : visible;
+        white-space : normal;
+        widows : 0;
+        width : auto;
+        word-spacing : normal;
+        z-index : auto;
+        /* basic modern patch */
+        all: initial;
+        all: unset;
+    }
+
     .asw-widget {
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -274,6 +436,7 @@ var init = function() {
         border: 3px solid ${tileColor};
         transition: background-color 0.3s ease;
         line-height:1.3;
+
     }
         
     .asw-btn .material-icons {
@@ -456,7 +619,7 @@ var init = function() {
 </style>
         
         <div class="asw-widget">            
-            <button class="asw-menu-btn" title="Open Accessibility Menu" role="button" aria-expanded="false">                
+            <button tabindex="0" class="asw-menu-btn" title="Open Accessibility Menu" role="button" aria-expanded="false">                
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="34px" height="34px">
                     <path d="M0 0h24v24H0V0z" fill="none"/><path d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
                 </svg>
@@ -490,7 +653,7 @@ var init = function() {
                                 Adjust Font Size
                             </label>
                             <div>
-                                <button class="asw-minus" data-key="font-size" role="button" aria-pressed="false">
+                                <button class="asw-minus" data-key="font-size" role="button" aria-pressed="false" aria-label="Decrease Font Size" title="Decrease Font Size">
                                     <span class="material-icons">
                                         remove
                                     </span>
@@ -498,7 +661,7 @@ var init = function() {
                                 <div class="asw-amount">
                                     ${settings.states.fontSize&&1!=settings.states.fontSize?`${parseInt(100*settings.states.fontSize)}%`:"Default"}
                                 </div>
-                                <button class="asw-plus" data-key="font-size" role="button" aria-pressed="false">
+                                <button class="asw-plus" data-key="font-size" role="button" aria-pressed="false"  aria-label="Increase Font Size" title="Increase Font Size">
                                     <span class="material-icons">
                                         add
                                     </span>
@@ -697,7 +860,7 @@ var init = function() {
 
         let text = document.querySelectorAll("h1,h2,h3,h4,h5,h6,p,a,dl,dt,li,ol,th,td,span");
         text.forEach(function(textItem) {
-            if (!textItem.classList.contains("material-icons")) {
+            if (!textItem.classList.contains("material-icons") && !textItem.classList.contains("asw-button-header") ) {
                 let orgFontSize = textItem.getAttribute("data-asw-orgFontSize");
                 if(!orgFontSize) {
                     orgFontSize = parseInt(window.getComputedStyle(textItem, null).getPropertyValue("font-size"))
@@ -725,6 +888,8 @@ var init = function() {
         }
 
         settings.states['fontSize'] = newValue;
+        
+        saveSettings();
     };
     const resetSettings = function() {
         settings.states = {};
