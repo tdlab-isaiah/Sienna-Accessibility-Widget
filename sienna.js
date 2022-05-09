@@ -691,7 +691,7 @@ var init = function() {
 </style>
         
         <div class="asw-widget">            
-            <button tabindex="0" class="asw-menu-btn" title="Display Preferences Menu" role="button" aria-expanded="false">                
+            <button tabindex="0" class="asw-menu-btn" title="Open Display Preferences" role="button" aria-expanded="false">                
                 <span class=" asw-text-noresize counterclockwise-text">
                     DISPLAY PREFERENCES
                 </span>
@@ -705,7 +705,7 @@ var init = function() {
                                 restart_alt
                             </span>
                         </button>
-                        <button role="button" class="asw-menu-close" title="Close Display Preferences Menu">
+                        <button role="button" class="asw-menu-close" title="Close Display Preferences">
                             <span class="material-icons">
                                 close
                             </span>
