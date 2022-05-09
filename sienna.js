@@ -154,7 +154,7 @@ var init = function() {
     let iconColor =   hslToHex((157 +  hue - hueOffset) % 360, 53, 32); // was '#0048ff', for main icon, borders and card selected background
     
     var tileColor =   hslToHex((38 +  hue - hueOffset) % 360, 93, 84); // original: '#ecf3ff', for tile background
-    var buttonColor =  hslToHex((8 +  hue - hueOffset) % 360, 84, 54); //was original: '#0648ff' font button color
+    var buttonColor =  hslToHex((157 +  hue - hueOffset) % 360, 53, 32); //was original: '#0648ff' font button color
     var boxShadow1 =  hslToHex((157 +  hue - hueOffset) % 360, 45, 26); // original '#252c61', rgb(37 44 97 / 15%)
     var boxShadow2 =  hslToHex((157 +  hue - hueOffset) % 360, 23, 47); // originsl: '#5d6494', rgb(93 100 148 /20%)
    
