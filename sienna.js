@@ -57,7 +57,7 @@ var init = function() {
                     <span class="material-icons">
                         ${o.icon}
                     </span>
-                    <h1 class="asw-button-header reset-this" aria-label="${o.label}" title="${o.label}">
+                    <h1 class="asw-text-noresize reset-this" aria-label="${o.label}" title="${o.label}">
                         ${o.label}
                     </h1>
                 </button>
@@ -330,25 +330,53 @@ var init = function() {
         box-sizing: border-box;
     }
 
+    .counterclockwise-text {
+
+        /* Chrome/Safari */
+        -webkit-transform: rotate(-90deg);
+        -webkit-transform-origin: 50% 50%;
+        
+        /* Firefox */
+        -moz-transform: rotate(-90deg); 
+        -moz-transform-origin: 50% 50%;
+        
+        /* IE9 */
+        -ms-transform: rotate(-90deg);
+        -ms-transform-origin: 50% 50%;
+        
+        /* IE10 and other modern browsers that do not need vendor prefixes */
+        transform: rotate(-90deg);
+        transform-origin: 50% 50%;
+        
+        /* IE8 */
+        filter: progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+        
+        /* IE7 or less */
+        *zoom: 1;
+        *writing-mode: tb-rl;
+        *filter: flipv fliph;
+        
+        }
+
     .asw-menu-btn {
-        border:3px solid white;
         position: fixed;
         z-index: 500000;
-        left: 20px;
-        bottom: 20px;
+        border: 0;
+        bottom: 10vh;
         background: ${iconColor};
         box-shadow: 0 5px 15px 0 ${hex2rgb(boxShadow1, 15)}, 0 2px 4px 0 ${hex2rgb(boxShadow2, 20)};
         transition: .3s;
-        border-radius: 50%;
+        color: white;
+
+        font-size: 0.875rem;
+
+        white-space: nowrap;
         align-items: center;
         justify-content: center;
         transform: translateY(0);
-        width: 64px;
-        height: 64px;
-        max-width: 5vw;
-        max-height: 5vw;
-        min-width: 9px;
-        min-height: 9px;
+        width: 30px;
+        height: 225px;
+
         display: flex;
         fill: white;
         cursor: pointer;
@@ -365,7 +393,7 @@ var init = function() {
     .asw-menu {
         display: none;
         position: fixed;
-        left: 20px;
+        left: 48px;
         top: 20px;
         border-radius: 8px;
         box-shadow: -1px 0 20px -14px #000;
@@ -377,7 +405,7 @@ var init = function() {
         width: 500px;
         line-height: 1;
         font-size: 14px;
-        height: calc(100% - 40px - 75px);
+        height: calc(100% - 40px );
         letter-spacing: 0.015em;
     }
 
@@ -532,37 +560,7 @@ var init = function() {
         display: none;
     }
 
-    @media only screen and (max-width: 550px) {
-        .asw-menu {
-            width: calc(100vw - 20px);
-            left: 10px;
-        }
-
-        .asw-btn {
-            width: calc(25% + 12px);
-            margin: 4px;
-        }
-    }
-    @media only screen and (max-width: 1000px) {
-
-        @media (min-width: 451px) {
-            .asw-menu-btn {
-                border:2px solid white;
-                left: 7px;
-                bottom: 7px;
-                padding: 1px 3px;
-            }
-    
-            .asw-menu {
-                height: calc(100% - 35px - 4vw);
-                left: 15px;
-                top: 12px;
-            }
-        }
-
-        .asw-menu-btn {
-            box-shadow: 0 2px 5px 0 ${hex2rgb(boxShadow1, 15)}, 0 1px 2px 0 ${hex2rgb(boxShadow2, 20)};
-        }
+    @media only screen and (max-height: 500px)  {
         .asw-menu-content {
             overflow: scroll;
             max-height: 100%;
@@ -573,23 +571,83 @@ var init = function() {
             display:none; !important;
         }
 
-        .asw-menu-header button[role="button"] {
-            padding: 8px;
+    }
+
+    @media (max-width: 550px) {
+        .asw-menu {
+            width: calc(100% -  33px - 15px - 16px);
         }
     }
 
-    @media only screen and (max-width: 450px) and  (min-width: 301px)  {
+    @media only screen and (max-height: 900px)  {
         .asw-menu-btn {
-            border:1px solid white;
-            left: 5px;
-            bottom: 5px;
+            font-size:  0.65rem;
+            width: 22px;
+            height: 145px;
+        }
+
+        .asw-menu {
+            left: 33px;
+            top: 5vh;
+            width: 485px;
+            height: calc(100% - 10%);
+            margin-top: 0px;
+        }
+
+        @media (max-width: 550px) {
+            .asw-menu {
+                width: calc(100% -  33px - 15px);
+            }
+        }
+    }
+
+    @media only screen and (max-height: 700px)  {
+        .asw-menu-btn {
+            font-size:  0.45rem;
+            width: 16px
+            height: 105px;
             padding: 1px 3px;
         }
 
         .asw-menu {
-            height: calc(100% - 22px - 4vw);
-            top: 5px;
-            left: 10px;
+            left: 33px;
+            top: 2.5vh;
+            width: 400px;
+            height: calc(100% - 5%);
+            margin-top: 0px;
+        }
+
+        @media (max-width: 500px) {
+            .asw-menu {
+                width: calc(100% -  33px - 15px);
+            }
+        }
+
+        .asw-menu-header button[role="button"] {
+            padding: 6px;
+        }
+    }
+
+    @media only screen and (max-height: 450px)  {
+        .asw-menu-btn {
+            font-size:  0.3rem;
+            width: 10px;
+            height: 75px;
+            padding: 1px 1px;
+        }
+        
+        .asw-menu {
+            left: 20px;
+            top: 2.5vh;
+            width: calc(80% - 8px - 20px );
+            height: calc(100% - 5%);
+            margin-top: 0px;
+        }
+
+        @media (max-width: 350px) {
+            .asw-menu {
+                width: calc(100% - 8px - 20px );
+            }
         }
 
         .asw-menu-header button[role="button"] {
@@ -597,43 +655,49 @@ var init = function() {
         }
     }
 
-    @media  (max-width: 300px){
+    @media only screen and (max-height: 250px)  {
         .asw-menu-btn {
-            border:1px solid white;
-            left: 4px;
-            bottom: 4px;
-            padding: 1px 1px;
+            font-size:  0.20rem;
+            width: 8px;
+            height: 50px;
+            padding: 0px 0px;
         }
 
         .asw-menu {
-            height: calc(100% - 16px - 4vw );
-            top: 5px;
-            left: 8px;
+            left: 20px;
+            top: 2.5vh;
+            width: calc(100% - 8px - 20px );
+            height: calc(100% - 5%);
+            margin-top: 0px;
+        }
+
+        .asw-menu-header {
+            font-size: 8px;
         }
 
         .asw-menu-header button[role="button"] {
-            padding: 4px;
+            padding: 2px;
         }
     }
 
 </style>
         
         <div class="asw-widget">            
-            <button tabindex="0" class="asw-menu-btn" title="Open Accessibility Menu" role="button" aria-expanded="false">                
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="34px" height="34px">
-                    <path d="M0 0h24v24H0V0z" fill="none"/><path d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
-                </svg>
+            <button tabindex="0" class="asw-menu-btn" title="Display Preferences Menu" role="button" aria-expanded="false">                
+                <span class=" asw-text-noresize counterclockwise-text">
+                    DISPLAY PREFERENCES
+                </span>
             </button>    
             <div class="asw-menu">                
                 <div class="asw-menu-header">
-                    Accessibility Menu
+                    Display Preferences
                     <div>
                         <button role="button" class="asw-menu-reset"  title="Reset Settings">
                             <span class="material-icons">
                                 restart_alt
                             </span>
                         </button>
-                        <button role="button" class="asw-menu-close" title="Close Accessibility Menu">
+                        <button role="button" class="asw-menu-close" title="Close Display Preferences Menu">
                             <span class="material-icons">
                                 close
                             </span>
@@ -860,7 +924,7 @@ var init = function() {
 
         let text = document.querySelectorAll("h1,h2,h3,h4,h5,h6,p,a,dl,dt,li,ol,th,td,span");
         text.forEach(function(textItem) {
-            if (!textItem.classList.contains("material-icons") && !textItem.classList.contains("asw-button-header") ) {
+            if (!textItem.classList.contains("material-icons") && !textItem.classList.contains("asw-text-noresize") ) {
                 let orgFontSize = textItem.getAttribute("data-asw-orgFontSize");
                 if(!orgFontSize) {
                     orgFontSize = parseInt(window.getComputedStyle(textItem, null).getPropertyValue("font-size"))
