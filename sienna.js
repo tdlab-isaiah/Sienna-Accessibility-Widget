@@ -375,7 +375,7 @@ var init = function() {
         align-items: center;
         justify-content: center;
         transform: translateY(0);
-        width: 29px;
+        width: 31px;
         height: 225px;
 
         display: flex;
@@ -582,7 +582,7 @@ var init = function() {
     @media only screen and (max-height: 900px)  {
         .asw-menu-btn {
             font-size:  0.65rem;
-            width: 20px;
+            width: 21px;
             height: 155px;
             border: 2px solid white;
             border-left:0;
