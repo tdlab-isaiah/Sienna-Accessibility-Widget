@@ -359,9 +359,10 @@ var init = function() {
         }
 
     .asw-menu-btn {
+        border: 2px solid white;
+        border-left:0;
         position: fixed;
         z-index: 500000;
-        border: 0;
         bottom: 10vh;
         background: ${iconColor};
         box-shadow: 0 5px 15px 0 ${hex2rgb(boxShadow1, 15)}, 0 2px 4px 0 ${hex2rgb(boxShadow2, 20)};
@@ -374,7 +375,7 @@ var init = function() {
         align-items: center;
         justify-content: center;
         transform: translateY(0);
-        width: 30px;
+        width: 29px;
         height: 225px;
 
         display: flex;
@@ -464,7 +465,6 @@ var init = function() {
         border: 3px solid ${tileColor};
         transition: background-color 0.3s ease;
         line-height:1.3;
-
     }
         
     .asw-btn .material-icons {
@@ -582,8 +582,10 @@ var init = function() {
     @media only screen and (max-height: 900px)  {
         .asw-menu-btn {
             font-size:  0.65rem;
-            width: 22px;
-            height: 145px;
+            width: 20px;
+            height: 155px;
+            border: 2px solid white;
+            border-left:0;
         }
 
         .asw-menu {
@@ -596,7 +598,7 @@ var init = function() {
 
         @media (max-width: 550px) {
             .asw-menu {
-                width: calc(100% -  33px - 15px);
+                width: calc(100% -  33px - 17px);
             }
         }
     }
@@ -604,9 +606,11 @@ var init = function() {
     @media only screen and (max-height: 700px)  {
         .asw-menu-btn {
             font-size:  0.45rem;
-            width: 16px
+            width: 15px
             height: 105px;
             padding: 1px 3px;
+            border: 2px solid white;
+            border-left:0;
         }
 
         .asw-menu {
@@ -634,19 +638,21 @@ var init = function() {
             width: 10px;
             height: 75px;
             padding: 1px 1px;
+            border: 1px solid white;
+            border-left:0;
         }
         
         .asw-menu {
             left: 20px;
             top: 2.5vh;
-            width: calc(80% - 8px - 20px );
+            width: calc(80% - 10px - 20px );
             height: calc(100% - 5%);
             margin-top: 0px;
         }
 
         @media (max-width: 350px) {
             .asw-menu {
-                width: calc(100% - 8px - 20px );
+                width: calc(100% - 9px - 20px );
             }
         }
 
@@ -661,6 +667,8 @@ var init = function() {
             width: 8px;
             height: 50px;
             padding: 0px 0px;
+            border: 1px solid white;
+            border-left:0;
         }
 
         .asw-menu {
