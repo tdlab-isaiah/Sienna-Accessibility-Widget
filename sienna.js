@@ -363,7 +363,7 @@ var init = function() {
         border-left:0;
         position: fixed;
         z-index: 500000;
-        bottom: 10vh;
+        top: 15vh;
         background: ${iconColor};
         box-shadow: 0 5px 15px 0 ${hex2rgb(boxShadow1, 15)}, 0 2px 4px 0 ${hex2rgb(boxShadow2, 20)};
         transition: .3s;
@@ -714,9 +714,9 @@ var init = function() {
                 </div>
                 <div class="asw-menu-content">
                     <div class="asw-card" style="margin-top: 15px;">
-                        <div class="asw-card-title">
+                        <h1 class="asw-card-title">
                             Content Adjustments
-                        </div>
+                        </h1>
                         <div class="asw-adjust-font">
                             <label>
                                 <span class="material-icons" style="margin-right:8px;">
@@ -725,7 +725,7 @@ var init = function() {
                                 Adjust Font Size
                             </label>
                             <div>
-                                <button class="asw-minus" data-key="font-size" role="button" aria-pressed="false" aria-label="Decrease Font Size" title="Decrease Font Size">
+                                <button class="asw-minus" data-key="font-size" role="button" aria-pressed="false" title="Decrease Font Size">
                                     <span class="material-icons">
                                         remove
                                     </span>
@@ -733,30 +733,30 @@ var init = function() {
                                 <div class="asw-amount">
                                     ${settings.states.fontSize&&1!=settings.states.fontSize?`${parseInt(100*settings.states.fontSize)}%`:"Default"}
                                 </div>
-                                <button class="asw-plus" data-key="font-size" role="button" aria-pressed="false"  aria-label="Increase Font Size" title="Increase Font Size">
+                                <button class="asw-plus" data-key="font-size" role="button" aria-pressed="false" title="Increase Font Size">
                                     <span class="material-icons">
                                         add
                                     </span>
                                 </button>
                             </div>
                         </div>
-                        <div class="asw-items">
+                        <div class="asw-items" aria-hidden="true">
                             ${contentPresets}
                         </div>
                     </div>
                     <div class="asw-card" style="margin-top: 15px;">
-                        <div class="asw-card-title">
+                        <h1 class="asw-card-title">
                             Color Adjustments
-                        </div>
-                        <div class="asw-items">
+                        </h1>
+                        <div class="asw-items" aria-hidden="true">
                             ${filterPresets}
                         </div>
                     </div>
                     <div class="asw-card" style="margin-top: 15px;">
-                        <div class="asw-card-title">
+                        <h1 class="asw-card-title">
                             Tools
-                        </div>
-                        <div class="asw-items">
+                        </h1>
+                        <div class="asw-items" aria-hidden="true">
                             ${tools}
                         </div>
                     </div>
@@ -1013,10 +1013,37 @@ var init = function() {
         n.addEventListener("click", changeFont, false)
     });
 
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'Escape') {
+
+    const  focusableElements =
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+
+    const firstFocusableElement = menu.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
+    const focusableContent = menu.querySelectorAll(focusableElements);
+    const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
             menu.style.display = "none", overlay.style.display = menu.style.display
         }
+
+        let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+
+        if(!isTabPressed) {
+            return;
+        }
+
+        if (e.shiftKey) { // if shift key pressed for shift + tab combination
+            if (document.activeElement === firstFocusableElement) {
+              lastFocusableElement.focus(); // add focus for the last focusable element
+              e.preventDefault();
+            }
+          } else { // if tab key is pressed
+            if (document.activeElement === lastFocusableElement) { // if focused has reached to last focusable element then focus first focusable element after pressing tab
+              firstFocusableElement.focus(); // add focus for the first focusable element
+              e.preventDefault();
+            }
+          }
     });
 
     // document.body.appendChild(accessibilityEl)
