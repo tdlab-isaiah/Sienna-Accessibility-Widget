@@ -701,12 +701,12 @@ var init = function() {
                     Display Preferences
                     <div>
                         <button role="button" class="asw-menu-reset"  title="Reset Settings">
-                            <span class="material-icons">
+                            <span class="material-icons" aria-hidden="true">
                                 restart_alt
                             </span>
                         </button>
                         <button role="button" class="asw-menu-close" title="Close Display Preferences">
-                            <span class="material-icons">
+                            <span class="material-icons" aria-hidden="true">
                                 close
                             </span>
                         </button>
