@@ -54,7 +54,7 @@ var init = function() {
                 selected = settings.states[o.key];
             "asw-filter" == btnClass && settings.states.contrast == o.key && (selected = !0), _html += `
                 <button class="asw-btn ${btnClass||""} ${selected?"asw-selected":""}" role="button" aria-pressed="false" data-key="${o.key}">
-                    <span class="material-icons">
+                    <span class="material-icons"  aria-hidden="true">
                         ${o.icon}
                     </span>
                     <h1 class="asw-text-noresize reset-this" aria-label="${o.label}" title="${o.label}">
@@ -740,7 +740,7 @@ var init = function() {
                                 </button>
                             </div>
                         </div>
-                        <div class="asw-items" aria-hidden="true">
+                        <div class="asw-items">
                             ${contentPresets}
                         </div>
                     </div>
@@ -748,7 +748,7 @@ var init = function() {
                         <h1 class="asw-card-title">
                             Color Adjustments
                         </h1>
-                        <div class="asw-items" aria-hidden="true">
+                        <div class="asw-items">
                             ${filterPresets}
                         </div>
                     </div>
@@ -756,7 +756,7 @@ var init = function() {
                         <h1 class="asw-card-title">
                             Tools
                         </h1>
-                        <div class="asw-items" aria-hidden="true">
+                        <div class="asw-items">
                             ${tools}
                         </div>
                     </div>
