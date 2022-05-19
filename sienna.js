@@ -53,13 +53,13 @@ var init = function() {
             let o = filterPresets[i],
                 selected = settings.states[o.key];
             "asw-filter" == btnClass && settings.states.contrast == o.key && (selected = !0), _html += `
-                <button class="asw-btn ${btnClass||""} ${selected?"asw-selected":""}" role="button" aria-pressed="false" data-key="${o.key}">
+                <button class="asw-btn ${btnClass||""} ${selected?"asw-selected":""} ${filterPresets.length == 2 ? "asw-btn-large":""}" role="button" aria-pressed="false" data-key="${o.key}">
                     <span class="material-icons"  aria-hidden="true">
                         ${o.icon}
                     </span>
-                    <h1 class="asw-text-noresize reset-this" aria-label="${o.label}" title="${o.label}">
+                    <div class="asw-text-noresize reset-this" aria-label="${o.label}">
                         ${o.label}
-                    </h1>
+                    </div>
                 </button>
             `;
             icons.push(o.icon);
@@ -387,6 +387,11 @@ var init = function() {
         background: transparent !important;
     }
 
+    .asw-menu-btn:focus-visible {
+        outline-color: white;
+        mix-blend-mode: difference;
+    }
+
     .asw-menu-btn:hover {
         transform: scale(1.05);
     }
@@ -465,6 +470,10 @@ var init = function() {
         border: 3px solid ${tileColor};
         transition: background-color 0.3s ease;
         line-height:1.3;
+    }
+
+    .asw-btn-large {
+        width: 218px;
     }
         
     .asw-btn .material-icons {
@@ -714,9 +723,17 @@ var init = function() {
                 </div>
                 <div class="asw-menu-content">
                     <div class="asw-card" style="margin-top: 15px;">
-                        <h1 class="asw-card-title">
+                        <h2 class="asw-card-title">
+                            Tools
+                        </h2>
+                        <div class="asw-items">
+                            ${tools}
+                        </div>
+                    </div>
+                    <div class="asw-card" style="margin-top: 15px;">
+                        <h2 class="asw-card-title">
                             Content Adjustments
-                        </h1>
+                        </h2>
                         <div class="asw-adjust-font">
                             <label>
                                 <span class="material-icons" style="margin-right:8px;">
@@ -745,19 +762,11 @@ var init = function() {
                         </div>
                     </div>
                     <div class="asw-card" style="margin-top: 15px;">
-                        <h1 class="asw-card-title">
+                        <h2 class="asw-card-title">
                             Color Adjustments
-                        </h1>
+                        </h2>
                         <div class="asw-items">
                             ${filterPresets}
-                        </div>
-                    </div>
-                    <div class="asw-card" style="margin-top: 15px;">
-                        <h1 class="asw-card-title">
-                            Tools
-                        </h1>
-                        <div class="asw-items">
-                            ${tools}
                         </div>
                     </div>
                 </div>
