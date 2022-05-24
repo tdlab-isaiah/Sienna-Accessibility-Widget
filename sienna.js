@@ -163,6 +163,22 @@ var init = function() {
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons&text=${icons.toString()}" rel="stylesheet">        
 
 <style>
+    @-webkit-keyframes march {
+        from {
+        background-position: 0% 0%, 0% 100%, 0% 0%, 100% 0%;
+        }
+        to {
+        background-position: 12px 0%, -12px 100%, 0% -12px, 100% 12px;
+        }
+    }
+    @keyframes march {
+        from {
+        background-position: 0% 0%, 0% 100%, 0% 0%, 100% 0%;
+        }
+        to {
+        background-position: 12px 0%, -12px 100%, 0% -12px, 100% 12px;
+        }
+    }
 
     .reset-this {
         animation : none;
@@ -376,7 +392,7 @@ var init = function() {
         justify-content: center;
         transform: translateY(0);
         width: 31px;
-        height: 225px;
+        height: 200px;
 
         display: flex;
         fill: white;
@@ -388,9 +404,41 @@ var init = function() {
     }
 
     .asw-menu-btn:focus-visible {
-        outline-color: white;
-        mix-blend-mode: difference;
+        outline-style:none;
+
+        background-image: linear-gradient(to right, #fff 50%, #444 50%), linear-gradient(to right, #fff 50%, #444 50%), linear-gradient(to bottom, #fff 50%, #444 50%), linear-gradient(to bottom, #fff 50%, #444 50%);
+  color: #fff;
+        background-size: 20px 2px, 20px 2px, 2px 20px, 2px 20px;
+        background-position: 0 0, 0 100%, 0 0, 100% 0;
+        background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
+        -webkit-animation: marching-ants-1 1s;
+                animation: marching-ants-1 1s;
+        -webkit-animation-timing-function: linear;
+                animation-timing-function: linear;
+        -webkit-animation-iteration-count: infinite;
+                animation-iteration-count: infinite;
+        -webkit-animation-play-state: running;
+                animation-play-state: running;
+
     }
+
+    @-webkit-keyframes marching-ants-1 {
+        0% {
+          background-position: 0 0, 0 100%, 0 0, 100% 0;
+        }
+        100% {
+          background-position: 40px 0, -40px 100%, 0 -40px, 100% 40px;
+        }
+    }
+      
+      @keyframes marching-ants-1 {
+        0% {
+          background-position: 0 0, 0 100%, 0 0, 100% 0;
+        }
+        100% {
+          background-position: 40px 0, -40px 100%, 0 -40px, 100% 40px;
+        }
+      }
 
     .asw-menu-btn:hover {
         transform: scale(1.05);
@@ -569,6 +617,14 @@ var init = function() {
         display: none;
     }
 
+    @media screen only and (max-aspect-ratio: 1) and (min-width:1000px) {
+        .asw-menu-btn {
+            width: 5vw;
+        }   
+    }
+       
+
+
     @media only screen and (max-height: 500px)  {
         .asw-menu-content {
             overflow: scroll;
@@ -590,9 +646,6 @@ var init = function() {
 
     @media only screen and (max-height: 900px)  {
         .asw-menu-btn {
-            font-size:  0.65rem;
-            width: 21px;
-            height: 155px;
             border: 2px solid white;
             border-left:0;
         }
@@ -614,9 +667,6 @@ var init = function() {
 
     @media only screen and (max-height: 700px)  {
         .asw-menu-btn {
-            font-size:  0.45rem;
-            width: 15px
-            height: 105px;
             padding: 1px 3px;
             border: 2px solid white;
             border-left:0;
@@ -643,9 +693,6 @@ var init = function() {
 
     @media only screen and (max-height: 450px)  {
         .asw-menu-btn {
-            font-size:  0.3rem;
-            width: 10px;
-            height: 75px;
             padding: 1px 1px;
             border: 1px solid white;
             border-left:0;
@@ -654,7 +701,7 @@ var init = function() {
         .asw-menu {
             left: 20px;
             top: 2.5vh;
-            width: calc(80% - 10px - 20px );
+            width: calc(80%  - 20px );
             height: calc(100% - 5%);
             margin-top: 0px;
         }
@@ -672,9 +719,6 @@ var init = function() {
 
     @media only screen and (max-height: 250px)  {
         .asw-menu-btn {
-            font-size:  0.20rem;
-            width: 8px;
-            height: 50px;
             padding: 0px 0px;
             border: 1px solid white;
             border-left:0;
@@ -683,7 +727,7 @@ var init = function() {
         .asw-menu {
             left: 20px;
             top: 2.5vh;
-            width: calc(100% - 8px - 20px );
+            width: calc(100% - 20px );
             height: calc(100% - 5%);
             margin-top: 0px;
         }
