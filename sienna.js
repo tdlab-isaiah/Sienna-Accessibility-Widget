@@ -385,14 +385,15 @@ var init = function() {
         transition: .3s;
         color: white;
 
-        font-size: 0.875rem;
+        font-size: 0.675rem;
+        font-weight: bold;
 
         white-space: nowrap;
         align-items: center;
         justify-content: center;
         transform: translateY(0);
         width: 31px;
-        height: 200px;
+        height: 175px;
 
         display: flex;
         fill: white;
@@ -405,6 +406,7 @@ var init = function() {
 
     .asw-menu-btn:focus-visible {
         outline-style:none;
+        border:none;
 
         background-image: linear-gradient(to right, #fff 50%, #444 50%), linear-gradient(to right, #fff 50%, #444 50%), linear-gradient(to bottom, #fff 50%, #444 50%), linear-gradient(to bottom, #fff 50%, #444 50%);
   color: #fff;
@@ -648,6 +650,9 @@ var init = function() {
         .asw-menu-btn {
             border: 2px solid white;
             border-left:0;
+
+            width: 26px;
+            height: 175px;
         }
 
         .asw-menu {
@@ -670,6 +675,9 @@ var init = function() {
             padding: 1px 3px;
             border: 2px solid white;
             border-left:0;
+
+            width: 21px;
+            height: 175px;
         }
 
         .asw-menu {
@@ -696,6 +704,9 @@ var init = function() {
             padding: 1px 1px;
             border: 1px solid white;
             border-left:0;
+
+            width: 16px;
+            height: 175px;
         }
         
         .asw-menu {
