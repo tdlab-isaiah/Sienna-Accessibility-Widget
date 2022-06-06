@@ -57,7 +57,7 @@ var init = function() {
                     <span class="material-icons"  aria-hidden="true">
                         ${o.icon}
                     </span>
-                    <div class="asw-text-noresize reset-this" aria-label="${o.label}">
+                    <div class="asw-text-noresize reset-this" >
                         ${o.label}
                     </div>
                 </button>
@@ -163,22 +163,6 @@ var init = function() {
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons&text=${icons.toString()}" rel="stylesheet">        
 
 <style>
-    @-webkit-keyframes march {
-        from {
-        background-position: 0% 0%, 0% 100%, 0% 0%, 100% 0%;
-        }
-        to {
-        background-position: 12px 0%, -12px 100%, 0% -12px, 100% 12px;
-        }
-    }
-    @keyframes march {
-        from {
-        background-position: 0% 0%, 0% 100%, 0% 0%, 100% 0%;
-        }
-        to {
-        background-position: 12px 0%, -12px 100%, 0% -12px, 100% 12px;
-        }
-    }
 
     .reset-this {
         animation : none;
@@ -392,8 +376,9 @@ var init = function() {
         align-items: center;
         justify-content: center;
         transform: translateY(0);
-        width: 31px;
-        height: 175px;
+        padding: 4px;
+        width: 28px;
+        height: 50px;
 
         display: flex;
         fill: white;
@@ -407,40 +392,16 @@ var init = function() {
     .asw-menu-btn:focus-visible {
         outline-style:none;
         border:none;
-
-        background-image: linear-gradient(to right, #fff 50%, #000 50%), linear-gradient(to right, #fff 50%, #000 50%), linear-gradient(to bottom, #fff 50%, #000 50%), linear-gradient(to bottom, #fff 50%, #000 50%);
-  color: #fff;
+        background-image: linear-gradient(to right, white 0% 25%, black 25% 50%, white 50% 75%, black 75% 100%), linear-gradient(to right, white 0% 25%, black 25% 50%, white 50% 75%, black 75% 100%), linear-gradient(to bottom, black 25%, white 25% 50%, black 50% 75%, white 75% 100%),  linear-gradient(to bottom, black 25%, white 25% 50%, black 50% 75%, white 75% 100%);
+        color: #fff;
         background-size: 20px 2px, 20px 2px, 2px 20px, 2px 20px;
         background-position: 0 0, 0 100%, 0 0, 100% 0;
         background-repeat: repeat-x, repeat-x, repeat-y, repeat-y;
-        -webkit-animation: marching-ants-1 1s;
-                animation: marching-ants-1 1s;
-        -webkit-animation-timing-function: linear;
-                animation-timing-function: linear;
-        -webkit-animation-iteration-count: infinite;
-                animation-iteration-count: infinite;
-        -webkit-animation-play-state: running;
-                animation-play-state: running;
-
+        -webkit-transition: none !important;
+        -moz-transition: none !important;
+        -o-transition: none !important;
+        transition: none !important;
     }
-
-    @-webkit-keyframes marching-ants-1 {
-        0% {
-          background-position: 0 0, 0 100%, 0 0, 100% 0;
-        }
-        100% {
-          background-position: 40px 0, -40px 100%, 0 -40px, 100% 40px;
-        }
-    }
-      
-      @keyframes marching-ants-1 {
-        0% {
-          background-position: 0 0, 0 100%, 0 0, 100% 0;
-        }
-        100% {
-          background-position: 40px 0, -40px 100%, 0 -40px, 100% 40px;
-        }
-      }
 
     .asw-menu-btn:hover {
         transform: scale(1.05);
@@ -652,7 +613,6 @@ var init = function() {
             border-left:0;
 
             width: 26px;
-            height: 175px;
         }
 
         .asw-menu {
@@ -676,7 +636,6 @@ var init = function() {
             border: 2px solid white;
             border-left:0;
             width: 21px;
-            height: 165px;
         }
 
         .asw-menu {
@@ -705,7 +664,6 @@ var init = function() {
             border-left:0;
 
             width: 16px;
-            height: 165px;
         }
         
         .asw-menu {
@@ -735,7 +693,6 @@ var init = function() {
             top: 2.5px;
 
             width: 15px;
-            height: 150px;
         }
 
         .asw-menu {
@@ -759,9 +716,9 @@ var init = function() {
         
         <div class="asw-widget">            
             <button tabindex="0" class="asw-menu-btn" title="Open Display Preferences" role="button" aria-expanded="false">                
-                <span class=" asw-text-noresize counterclockwise-text">
-                    DISPLAY PREFERENCES
-                </span>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="34px" height="34px">
+                    <path d="M0 0h24v24H0V0z" fill="none"/><path d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
+                </svg>
             </button>    
             <div class="asw-menu">                
                 <div class="asw-menu-header">
@@ -1054,16 +1011,19 @@ var init = function() {
     accessibilityEl.querySelector(".asw-menu-btn").addEventListener("click", function() {
         menu.style.display = "block" == menu.style.display ? "none" : "block";
         overlay.style.display = menu.style.display;
+        document.body.style.overflow = menu.style.display == "block" ? "hidden" : "auto";
     }, false);
     
     menu.querySelector(".asw-menu-close").addEventListener("click", function() {
         menu.style.display = "none";
          overlay.style.display = menu.style.display;
+         document.body.style.overflow = "auto";
     }, false);
     
     overlay.addEventListener("click", function() {
         menu.style.display = "none";
         overlay.style.display = menu.style.display;
+        document.body.style.overflow = "auto";
     }, false);
     
     menu.querySelector(".asw-menu-reset").addEventListener("click", resetSettings, false);
@@ -1096,6 +1056,11 @@ var init = function() {
 
         let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
 
+        // prevent space and arrow keys 
+
+       
+        
+        
         if(!isTabPressed) {
             return;
         }
@@ -1111,6 +1076,8 @@ var init = function() {
               e.preventDefault();
             }
           }
+
+        
     });
 
     // document.body.appendChild(accessibilityEl)
