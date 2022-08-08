@@ -53,7 +53,7 @@ var init = function() {
             let o = filterPresets[i],
                 selected = settings.states[o.key];
             "asw-filter" == btnClass && settings.states.contrast == o.key && (selected = !0), _html += `
-                <button class="asw-btn ${btnClass||""} ${selected?"asw-selected":""} ${filterPresets.length == 2 ? "asw-btn-large":""}" role="button" aria-pressed="false" data-key="${o.key}">
+                <button class="asw-btn ${btnClass||""} ${selected?"asw-selected":""} ${filterPresets.length == 2 ? "asw-btn-large":""}" aria-pressed="false" data-key="${o.key}">
                     <span class="material-icons"  aria-hidden="true">
                         ${o.icon}
                     </span>
@@ -448,11 +448,11 @@ var init = function() {
         display: flex;
     }
     
-    .asw-menu-header button[role="button"] {
+    .asw-menu-header button {
         padding: 12px;
     }
 
-    .asw-menu-header button[role="button"]:hover {
+    .asw-menu-header button:hover {
         opacity: 0.8;
     }
 
@@ -558,7 +558,7 @@ var init = function() {
         font-weight: 700;
     }
 
-    .asw-adjust-font button[role="button"] {
+    .asw-adjust-font button {
         background: ${buttonColor};
         border-radius: 50%;
         border: none;
@@ -652,7 +652,7 @@ var init = function() {
             }
         }
 
-        .asw-menu-header button[role="button"] {
+        .asw-menu-header button {
             padding: 6px;
         }
     }
@@ -680,7 +680,7 @@ var init = function() {
             }
         }
 
-        .asw-menu-header button[role="button"] {
+        .asw-menu-header button {
             padding: 4px;
         }
     }
@@ -703,11 +703,8 @@ var init = function() {
             margin-top: 0px;
         }
 
-        .asw-menu-header {
+        .asw-menu-header button {
             font-size: 8px;
-        }
-
-        .asw-menu-header button[role="button"] {
             padding: 2px;
         }
     }
@@ -715,7 +712,7 @@ var init = function() {
 </style>
         
         <div class="asw-widget">            
-            <button tabindex="0" class="asw-menu-btn" title="Open Display Preferences" role="button" aria-expanded="false">                
+            <button tabindex="0" class="asw-menu-btn" title="Open Display Preferences" aria-expanded="false">                
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="34px" height="34px">
                     <path d="M0 0h24v24H0V0z" fill="none"/><path d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
                 </svg>
@@ -724,12 +721,12 @@ var init = function() {
                 <div class="asw-menu-header">
                     Display Preferences
                     <div>
-                        <button role="button" class="asw-menu-reset"  title="Reset Settings">
+                        <button class="asw-menu-reset" aria-label="Reset Display Preferences" title="Reset Settings">
                             <span class="material-icons" aria-hidden="true">
                                 restart_alt
                             </span>
                         </button>
-                        <button role="button" class="asw-menu-close" title="Close Display Preferences">
+                        <button class="asw-menu-close" aria-label="Close Display Preferences Menu" title="Close Display Preferences">
                             <span class="material-icons" aria-hidden="true">
                                 close
                             </span>
@@ -757,16 +754,16 @@ var init = function() {
                                 Adjust Font Size
                             </label>
                             <div>
-                                <button class="asw-minus" data-key="font-size" role="button" aria-pressed="false" title="Decrease Font Size">
-                                    <span class="material-icons">
+                                <button class="asw-minus" data-key="font-size" aria-pressed="false" title="Decrease Font Size">
+                                    <span class="material-icons" aria-hidden="true">
                                         remove
                                     </span>
                                 </button>
                                 <div class="asw-amount">
                                     ${settings.states.fontSize&&1!=settings.states.fontSize?`${parseInt(100*settings.states.fontSize)}%`:"Default"}
                                 </div>
-                                <button class="asw-plus" data-key="font-size" role="button" aria-pressed="false" title="Increase Font Size">
-                                    <span class="material-icons">
+                                <button class="asw-plus" data-key="font-size" aria-pressed="false" title="Increase Font Size">
+                                    <span class="material-icons" aria-hidden="true">
                                         add
                                     </span>
                                 </button>
@@ -1006,6 +1003,7 @@ var init = function() {
     };
 
     let menu = accessibilityEl.querySelector(".asw-menu");
+    let menucontent = accessibilityEl.querySelector(".asw-card");
     let overlay = accessibilityEl.querySelector(".asw-overlay");
 
     accessibilityEl.querySelector(".asw-menu-btn").addEventListener("click", function() {
@@ -1032,14 +1030,9 @@ var init = function() {
         n.addEventListener("click", clickItem, false)
     });
     
-    menu.querySelectorAll(".asw-adjust-font button[role='button']").forEach(function(n) {
+    menu.querySelectorAll(".asw-adjust-font button").forEach(function(n) {
         n.addEventListener("click", changeFont, false)
     });
-    
-    menu.querySelectorAll(".asw-adjust-font div[role='button']").forEach(function(n) {
-        n.addEventListener("click", changeFont, false)
-    });
-
 
     const  focusableElements =
     'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
@@ -1048,19 +1041,26 @@ var init = function() {
     const firstFocusableElement = menu.querySelectorAll(focusableElements)[0]; // get first element to be focused inside modal
     const focusableContent = menu.querySelectorAll(focusableElements);
     const lastFocusableElement = focusableContent[focusableContent.length - 1]; // get
+    const scrollableMenu = menu.querySelector(".asw-menu-content");
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            menu.style.display = "none", overlay.style.display = menu.style.display
+            menu.style.display = "none"
+            overlay.style.display = menu.style.display
         }
-
-        let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
-
-        // prevent space and arrow keys 
-
+        
+        if(menu.style.display === "block") {
+            if (e.key === "ArrowUp") { // up
+                var scrollPos = scrollableMenu.scrollTop;
+                scrollableMenu.scrollBy({top: -30, behavior: 'smooth'});
+            } else if (e.key === "ArrowDown") {// down
+                var scrollPos = scrollableMenu.scrollTop;
+                scrollableMenu.scrollBy({top: 30, behavior: 'smooth'});
+            }
+        }
        
         
-        
+        let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
         if(!isTabPressed) {
             return;
         }
