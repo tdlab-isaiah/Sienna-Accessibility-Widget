@@ -984,6 +984,7 @@ var init = function() {
         
         saveSettings();
     };
+
     const resetSettings = function() {
         settings.states = {};
         changeFilter();
@@ -1002,26 +1003,38 @@ var init = function() {
         saveSettings();
     };
 
+    
+
     let menu = accessibilityEl.querySelector(".asw-menu");
     let menucontent = accessibilityEl.querySelector(".asw-card");
     let overlay = accessibilityEl.querySelector(".asw-overlay");
 
+    const isMenuOpen = () => {
+        return !(menu.style.display === "" || menu.style.display === undefined || menu.style.display === "none")
+    }
+
+    const closeMenu = () => {
+        menu.style.display = "none";
+        document.body.style.overflow = "auto"; 
+        overlay.style.display = "none";
+    }
+
+    const openMenu = () => {
+        menu.style.display = "block";
+        document.body.style.overflow = "hidden"; 
+        overlay.style.display = "block";
+    }
+
     accessibilityEl.querySelector(".asw-menu-btn").addEventListener("click", function() {
-        menu.style.display = "block" == menu.style.display ? "none" : "block";
-        overlay.style.display = menu.style.display;
-        document.body.style.overflow = menu.style.display == "block" ? "hidden" : "auto";
+        isMenuOpen() ? closeMenu() : openMenu();
     }, false);
     
     menu.querySelector(".asw-menu-close").addEventListener("click", function() {
-        menu.style.display = "none";
-         overlay.style.display = menu.style.display;
-         document.body.style.overflow = "auto";
+        closeMenu();
     }, false);
     
     overlay.addEventListener("click", function() {
-        menu.style.display = "none";
-        overlay.style.display = menu.style.display;
-        document.body.style.overflow = "auto";
+        closeMenu();
     }, false);
     
     menu.querySelector(".asw-menu-reset").addEventListener("click", resetSettings, false);
@@ -1045,22 +1058,21 @@ var init = function() {
 
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape') {
-            menu.style.display = "none"
-            overlay.style.display = menu.style.display
+            closeMenu();
         }
-        
-        if(menu.style.display === "block") {
-            if (e.key === "ArrowUp") { // up
-                var scrollPos = scrollableMenu.scrollTop;
-                scrollableMenu.scrollBy({top: -30, behavior: 'smooth'});
-            } else if (e.key === "ArrowDown") {// down
-                var scrollPos = scrollableMenu.scrollTop;
-                scrollableMenu.scrollBy({top: 30, behavior: 'smooth'});
+
+        if (isMenuOpen()) {
+            if (e.key === "ArrowUp" ) { 
+                scrollableMenu.scrollBy({top: -60, behavior: 'smooth'}); 
+                e.preventDefault();
+            } else if (e.key === "ArrowDown") {
+                scrollableMenu.scrollBy({top: 60, behavior: 'smooth'}); 
+                e.preventDefault();
             }
         }
-       
-        
+
         let isTabPressed = e.key === 'Tab' || e.keyCode === 9;
+        
         if(!isTabPressed) {
             return;
         }
