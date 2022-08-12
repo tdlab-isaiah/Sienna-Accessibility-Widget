@@ -1,3 +1,6 @@
+const fr = require('./lang/fr.json');
+const en = require('./lang/en.json');
+
 var thisScript = document.currentScript || (function() {
     var scripts = document.getElementsByTagName('script');
     return scripts[scripts.length - 1];
@@ -72,52 +75,56 @@ var init = function() {
         return scripts[scripts.length - 1];
     })();
 
+
+    let lang = thisScript.getAttribute("lang");
+    const text = thisScript.getAttribute("lang") === "fr" ? fr : en;
+
     let contentPresets = createButtons([{
-            label: "Readable Font",
+            label: text.readableFont,
             key: "readable-font",
             icon: "local_parking"
         }, {
-            label: "Highlight Links",
+            label: text.highlightLinks,
             key: "highlight-links",
             icon: "link"
         }, {
-            label: "Highlight Title",
+            label: text.highlightTitle,
             key: "highlight-title",
             icon: "title"
         }])
 
     let filterPresets = createButtons([{
-            label: "Monochrome",
+            label: text.monochrome,
             key: "monochrome",
             icon: "filter_b_and_w"
         }, {
-            label: "Low Saturation",
+            label: text.lowSaturation,
             key: "low-saturation",
             icon: "gradient"
         }, {
-            label: "High Saturation",
+            label: text.highSaturation,
             key: "high-saturation",
             icon: "filter_vintage"
         }, {
-            label: "High Contrast",
+            label: text.highContrast,
             key: "high-contrast",
             icon: "tonality"
         }, {
-            label: "Light Contrast",
+            label: text.lightContrast,
             key: "light-contrast",
             icon: "brightness_5"
         }, {
-            label: "Dark Contrast",
+            label:text.darkContrast,
             key: "dark-contrast",
             icon: "nightlight"
         }], "asw-filter")
 
     let tools = createButtons([ {
-            label: "Stop Animations",
+            label: text.stopAnimations,
             key: "stop-animations",
             icon: "motion_photos_off"
         }, {
-            label: "Reading Guide",
+            label: text.readingGuide,
             key: "readable-guide",
             icon: "local_library"
         }], "asw-tools");
@@ -712,21 +719,21 @@ var init = function() {
 </style>
         
         <div class="asw-widget">            
-            <button tabindex="0" class="asw-menu-btn" title="Open Display Preferences" aria-expanded="false">                
+            <button tabindex="0" class="asw-menu-btn" title="${text.openDisplayPreferences}" aria-expanded="false">                
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="34px" height="34px">
                     <path d="M0 0h24v24H0V0z" fill="none"/><path d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
                 </svg>
             </button>    
             <div class="asw-menu">                
                 <div class="asw-menu-header">
-                    Display Preferences
+                    ${text.displayPreferences}
                     <div>
-                        <button class="asw-menu-reset" aria-label="Reset Display Preferences" title="Reset Settings">
+                        <button class="asw-menu-reset" aria-label="${text.resetSettings}" title="${text.resetSettings}">
                             <span class="material-icons" aria-hidden="true">
                                 restart_alt
                             </span>
                         </button>
-                        <button class="asw-menu-close" aria-label="Close Display Preferences Menu" title="Close Display Preferences">
+                        <button class="asw-menu-close" aria-label="${text.closeDisplayPreferences}" title="${text.closeDisplayPreferences}">
                             <span class="material-icons" aria-hidden="true">
                                 close
                             </span>
@@ -736,7 +743,7 @@ var init = function() {
                 <div class="asw-menu-content">
                     <div class="asw-card" style="margin-top: 15px;">
                         <h2 class="asw-card-title">
-                            Tools
+                            ${text.tools}
                         </h2>
                         <div class="asw-items">
                             ${tools}
@@ -744,25 +751,25 @@ var init = function() {
                     </div>
                     <div class="asw-card" style="margin-top: 15px;">
                         <h2 class="asw-card-title">
-                            Content Adjustments
+                            ${text.contentAdjustments}
                         </h2>
                         <div class="asw-adjust-font">
                             <label>
                                 <span class="material-icons" style="margin-right:8px;">
                                     format_size
                                 </span>
-                                Adjust Font Size
+                                ${text.adjustFontSize}
                             </label>
                             <div>
-                                <button class="asw-minus" data-key="font-size" aria-pressed="false" title="Decrease Font Size">
+                                <button class="asw-minus" data-key="font-size" aria-pressed="false" title="${text.decreaseFontSize}">
                                     <span class="material-icons" aria-hidden="true">
                                         remove
                                     </span>
                                 </button>
                                 <div class="asw-amount">
-                                    ${settings.states.fontSize&&1!=settings.states.fontSize?`${parseInt(100*settings.states.fontSize)}%`:"Default"}
+                                    ${settings.states.fontSize&&1!=settings.states.fontSize?`${parseInt(100*settings.states.fontSize)}%`:`${text.default}`}
                                 </div>
-                                <button class="asw-plus" data-key="font-size" aria-pressed="false" title="Increase Font Size">
+                                <button class="asw-plus" data-key="font-size" aria-pressed="false" title="${text.increaseFontSize}">
                                     <span class="material-icons" aria-hidden="true">
                                         add
                                     </span>
@@ -775,7 +782,7 @@ var init = function() {
                     </div>
                     <div class="asw-card" style="margin-top: 15px;">
                         <h2 class="asw-card-title">
-                            Color Adjustments
+                            ${text.colorAdjustments}
                         </h2>
                         <div class="asw-items">
                             ${filterPresets}
