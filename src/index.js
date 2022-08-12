@@ -77,54 +77,54 @@ var init = function() {
 
 
     let lang = thisScript.getAttribute("lang");
-    const text = thisScript.getAttribute("lang") === "fr" ? fr : en;
+    const localizationText = thisScript.getAttribute("lang") === "fr" ? fr : en;
 
     let contentPresets = createButtons([{
-            label: text.readableFont,
+            label: localizationText.readableFont,
             key: "readable-font",
             icon: "local_parking"
         }, {
-            label: text.highlightLinks,
+            label: localizationText.highlightLinks,
             key: "highlight-links",
             icon: "link"
         }, {
-            label: text.highlightTitle,
+            label: localizationText.highlightTitle,
             key: "highlight-title",
             icon: "title"
         }])
 
     let filterPresets = createButtons([{
-            label: text.monochrome,
+            label: localizationText.monochrome,
             key: "monochrome",
             icon: "filter_b_and_w"
         }, {
-            label: text.lowSaturation,
+            label: localizationText.lowSaturation,
             key: "low-saturation",
             icon: "gradient"
         }, {
-            label: text.highSaturation,
+            label: localizationText.highSaturation,
             key: "high-saturation",
             icon: "filter_vintage"
         }, {
-            label: text.highContrast,
+            label: localizationText.highContrast,
             key: "high-contrast",
             icon: "tonality"
         }, {
-            label: text.lightContrast,
+            label: localizationText.lightContrast,
             key: "light-contrast",
             icon: "brightness_5"
         }, {
-            label:text.darkContrast,
+            label:localizationText.darkContrast,
             key: "dark-contrast",
             icon: "nightlight"
         }], "asw-filter")
 
     let tools = createButtons([ {
-            label: text.stopAnimations,
+            label: localizationText.stopAnimations,
             key: "stop-animations",
             icon: "motion_photos_off"
         }, {
-            label: text.readingGuide,
+            label: localizationText.readingGuide,
             key: "readable-guide",
             icon: "local_library"
         }], "asw-tools");
@@ -719,21 +719,21 @@ var init = function() {
 </style>
         
         <div class="asw-widget">            
-            <button tabindex="0" class="asw-menu-btn" title="${text.openDisplayPreferences}" aria-expanded="false">                
+            <button tabindex="0" class="asw-menu-btn" title="${localizationText.openDisplayPreferences}" aria-expanded="false">                
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="34px" height="34px">
                     <path d="M0 0h24v24H0V0z" fill="none"/><path d="M20.5 6c-2.61.7-5.67 1-8.5 1s-5.89-.3-8.5-1L3 8c1.86.5 4 .83 6 1v13h2v-6h2v6h2V9c2-.17 4.14-.5 6-1l-.5-2zM12 6c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2z"/>
                 </svg>
             </button>    
             <div class="asw-menu">                
                 <div class="asw-menu-header">
-                    ${text.displayPreferences}
+                    ${localizationText.displayPreferences}
                     <div>
-                        <button class="asw-menu-reset" aria-label="${text.resetSettings}" title="${text.resetSettings}">
+                        <button class="asw-menu-reset" aria-label="${localizationText.resetSettings}" title="${localizationText.resetSettings}">
                             <span class="material-icons" aria-hidden="true">
                                 restart_alt
                             </span>
                         </button>
-                        <button class="asw-menu-close" aria-label="${text.closeDisplayPreferences}" title="${text.closeDisplayPreferences}">
+                        <button class="asw-menu-close" aria-label="${localizationText.closeDisplayPreferences}" title="${localizationText.closeDisplayPreferences}">
                             <span class="material-icons" aria-hidden="true">
                                 close
                             </span>
@@ -743,7 +743,7 @@ var init = function() {
                 <div class="asw-menu-content">
                     <div class="asw-card" style="margin-top: 15px;">
                         <h2 class="asw-card-title">
-                            ${text.tools}
+                            ${localizationText.tools}
                         </h2>
                         <div class="asw-items">
                             ${tools}
@@ -751,25 +751,25 @@ var init = function() {
                     </div>
                     <div class="asw-card" style="margin-top: 15px;">
                         <h2 class="asw-card-title">
-                            ${text.contentAdjustments}
+                            ${localizationText.contentAdjustments}
                         </h2>
                         <div class="asw-adjust-font">
                             <label>
                                 <span class="material-icons" style="margin-right:8px;">
                                     format_size
                                 </span>
-                                ${text.adjustFontSize}
+                                ${localizationText.adjustFontSize}
                             </label>
                             <div>
-                                <button class="asw-minus" data-key="font-size" aria-pressed="false" title="${text.decreaseFontSize}">
+                                <button class="asw-minus" data-key="font-size" aria-pressed="false" title="${localizationText.decreaseFontSize}">
                                     <span class="material-icons" aria-hidden="true">
                                         remove
                                     </span>
                                 </button>
                                 <div class="asw-amount">
-                                    ${settings.states.fontSize&&1!=settings.states.fontSize?`${parseInt(100*settings.states.fontSize)}%`:`${text.default}`}
+                                    ${settings.states.fontSize&&1!=settings.states.fontSize ? parseInt(100*settings.states.fontSize) : localizationText.default}
                                 </div>
-                                <button class="asw-plus" data-key="font-size" aria-pressed="false" title="${text.increaseFontSize}">
+                                <button class="asw-plus" data-key="font-size" aria-pressed="false" title="${localizationText.increaseFontSize}">
                                     <span class="material-icons" aria-hidden="true">
                                         add
                                     </span>
@@ -782,7 +782,7 @@ var init = function() {
                     </div>
                     <div class="asw-card" style="margin-top: 15px;">
                         <h2 class="asw-card-title">
-                            ${text.colorAdjustments}
+                            ${localizationText.colorAdjustments}
                         </h2>
                         <div class="asw-items">
                             ${filterPresets}
@@ -972,7 +972,7 @@ var init = function() {
             }
         });
 
-        let label = text.default;
+        let label = localizationText.default;
 
         if(newValue !== 1) {
             if(newValue > 1) {
@@ -1004,7 +1004,7 @@ var init = function() {
         })
         
         document.querySelectorAll(".asw-amount").forEach(function(item) {
-            item.innerHTML = text.default;
+            item.innerHTML = localizationText.default;
         });
 
         saveSettings();
