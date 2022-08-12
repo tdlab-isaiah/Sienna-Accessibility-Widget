@@ -972,7 +972,7 @@ var init = function() {
             }
         });
 
-        let label = "Default";
+        let label = text.default;
 
         if(newValue !== 1) {
             if(newValue > 1) {
@@ -1004,7 +1004,7 @@ var init = function() {
         })
         
         document.querySelectorAll(".asw-amount").forEach(function(item) {
-            item.innerHTML = "Default";
+            item.innerHTML = text.default;
         });
 
         saveSettings();
