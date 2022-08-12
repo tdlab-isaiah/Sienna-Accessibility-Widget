@@ -1,0 +1,19 @@
+{
+  "name": "sienna-accessibility-widget",
+  "version": "1.0.0",
+  "description": "",
+  "main": "sienna.js",
+  "scripts": {
+    "build": "webpack --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@ghlab:tdlab-isaiah/Sienna-Accessibility-Widget.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
+  }
+}
